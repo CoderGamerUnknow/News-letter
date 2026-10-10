@@ -9,7 +9,7 @@ import {
   newspaper,
   type Article,
 } from "@/lib/articles";
-import { liveStories, seedLiveStories } from "@/lib/live-news";
+import { getBreaking, seedLiveStories } from "@/lib/live-news";
 import {
   Byline,
   Page,
@@ -40,7 +40,7 @@ export default function Home() {
 
   return (
     <Page>
-      <BreakingTickerClient initial={liveStories.slice(0, 12)} />
+      <BreakingTickerClient initial={getBreaking(12)} />
       <SiteHeader home />
 
       <main className={styles.main} id="main-content">

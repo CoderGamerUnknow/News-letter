@@ -21,6 +21,9 @@ const OUT_FILE = join(ROOT, "lib", "live-news.json");
 const FEEDS_FILE = join(ROOT, "lib", "feeds.json");
 const TIMEOUT_MS = Number(process.env.FETCH_TIMEOUT_MS ?? 12000);
 
+/** Keep at most this many items per feed, so one prolific source can't swamp the wire. */
+const ITEM_LIMIT = 25;
+
 /**
  * Regions, sections and feed URLs live in `lib/feeds.json` so the build-time
  * and runtime fetchers can never drift apart. We deliberately pull from
@@ -36,6 +39,16 @@ async function loadFeeds() {
 function pickTag(xml, tag) {
   const match = xml.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, "i"));
   return match ? match[1].trim() : "";
+}
+
+/**
+ * Turn a feed date into an ISO day. Feeds sometimes send a value Date can't
+ * parse; returning "" keeps the rest of the feed instead of discarding it.
+ */
+function toIsoDay(value) {
+  if (!value) return "";
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? "" : parsed.toISOString().slice(0, 10);
 }
 
 /** Strip CDATA, HTML and excess whitespace from a snippet. */
@@ -55,8 +68,7 @@ function parseRss(xml, feed) {
     const title = clean(pickTag(item, "title"));
     const link = clean(pickTag(item, "link"));
     const description = clean(pickTag(item, "description")).slice(0, 240);
-    const pubDate = pickTag(item, "pubDate");
-    const iso = pubDate ? new Date(pubDate).toISOString().slice(0, 10) : "";
+    const iso = toIsoDay(pickTag(item, "pubDate"));
     return {
       title,
       link,
@@ -66,7 +78,7 @@ function parseRss(xml, feed) {
       source: feed.source,
       date: iso,
     };
-  }).filter((story) => story.title && story.link);
+  }).filter((story) => story.title && story.link).slice(0, ITEM_LIMIT);
 }
 
 /** Fetch one feed with a hard timeout; returns [] on any failure. */

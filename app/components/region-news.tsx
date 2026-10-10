@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
 import { newsRegions, type RegionId } from "@/lib/feeds";
 import { groupByTopic, type LiveStory } from "@/lib/live-news";
 import { useLiveStories } from "./live-client";
@@ -35,6 +35,9 @@ export function RegionNews({
   const stories = useLiveStories(initial);
   const [active, setActive] = useState<RegionId>(newsRegions[0].id);
   const tabsRef = useRef<HTMLDivElement>(null);
+  // Unique per instance so two RegionNews blocks never clash on element ids.
+  const baseId = useId();
+  const headingId = `${baseId}-heading`;
 
   const activeRegion = newsRegions.find((region) => region.id === active) ?? newsRegions[0];
   const groups = useMemo(
@@ -58,8 +61,8 @@ export function RegionNews({
   }
 
   return (
-    <section className={styles.wrap} aria-labelledby="region-news-heading">
-      <h2 id="region-news-heading" className={styles.heading}>
+    <section className={styles.wrap} aria-labelledby={headingId}>
+      <h2 id={headingId} className={styles.heading}>
         <span className={styles.livePulse} aria-hidden="true" />
         {heading}
         <span className={styles.headingNote}>live · auto-updates</span>
@@ -79,9 +82,9 @@ export function RegionNews({
               key={region.id}
               type="button"
               role="tab"
-              id={`region-tab-${region.id}`}
+              id={`${baseId}-tab-${region.id}`}
               aria-selected={selected}
-              aria-controls={`region-panel-${region.id}`}
+              aria-controls={`${baseId}-panel-${region.id}`}
               tabIndex={selected ? 0 : -1}
               className={selected ? `${styles.tab} ${styles.tabActive}` : styles.tab}
               onClick={() => setActive(region.id)}
@@ -94,8 +97,8 @@ export function RegionNews({
 
       <div
         role="tabpanel"
-        id={`region-panel-${active}`}
-        aria-labelledby={`region-tab-${active}`}
+        id={`${baseId}-panel-${active}`}
+        aria-labelledby={`${baseId}-tab-${active}`}
         className={styles.panel}
       >
         {groups.length === 0 ? (
@@ -108,9 +111,12 @@ export function RegionNews({
             <section
               key={group.section}
               className={styles.topic}
-              aria-labelledby={`topic-${active}-${group.section}`}
+              aria-labelledby={`${baseId}-topic-${active}-${group.section}`}
             >
-              <h3 id={`topic-${active}-${group.section}`} className={styles.topicTitle}>
+              <h3
+                id={`${baseId}-topic-${active}-${group.section}`}
+                className={styles.topicTitle}
+              >
                 {group.label}
               </h3>
               <ul className={styles.list}>

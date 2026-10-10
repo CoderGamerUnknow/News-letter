@@ -4,7 +4,7 @@
  * dependency-free with a tolerant regex parser that handles CDATA and HTML.
  */
 
-import { feeds, type Feed, type RegionId } from "./feeds";
+import { feedItemLimit, feeds, type Feed, type RegionId } from "./feeds";
 
 export type RssStory = {
   title: string;
@@ -25,6 +25,16 @@ function pickTag(xml: string, tag: string): string {
   return match ? match[1].trim() : "";
 }
 
+/**
+ * Turn a feed date into an ISO day. Feeds sometimes send a value Date can't
+ * parse; returning "" keeps the rest of the feed instead of discarding it.
+ */
+function toIsoDay(value: string): string {
+  if (!value) return "";
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? "" : parsed.toISOString().slice(0, 10);
+}
+
 function clean(text: string): string {
   return text
     .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, "$1")
@@ -41,8 +51,7 @@ function parseRss(xml: string, feed: Feed): RssStory[] {
       const title = clean(pickTag(item, "title"));
       const link = clean(pickTag(item, "link"));
       const summary = clean(pickTag(item, "description")).slice(0, 240);
-      const pubDate = pickTag(item, "pubDate");
-      const date = pubDate ? new Date(pubDate).toISOString().slice(0, 10) : "";
+      const date = toIsoDay(pickTag(item, "pubDate"));
       return {
         title,
         link,
@@ -53,7 +62,8 @@ function parseRss(xml: string, feed: Feed): RssStory[] {
         date,
       };
     })
-    .filter((story) => story.title && story.link);
+    .filter((story) => story.title && story.link)
+    .slice(0, feedItemLimit);
 }
 
 async function fetchFeed(feed: Feed): Promise<RssStory[]> {

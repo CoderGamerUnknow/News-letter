@@ -109,10 +109,10 @@ export function storyArtSvg(article: Article, viewBoxWidth = 320, viewBoxHeight 
     }
   } else {
     // grid
-    const cell = 16 + rand() * 14;
+    const cell = 26 + rand() * 16;
     for (let y = 0; y < h; y += cell) {
       for (let x = 0; x < w; x += cell) {
-        if (rand() > 0.55) {
+        if (rand() > 0.45) {
           parts.push(
             `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(cell * 0.7).toFixed(
               1,
@@ -124,17 +124,20 @@ export function storyArtSvg(article: Article, viewBoxWidth = 320, viewBoxHeight 
   }
 
   // 3. Halftone dot field across the lower third, evoking newsprint screening.
+  //    Drawn as one tiled <pattern> rather than hundreds of <circle> elements,
+  //    which keeps each illustration (and the HTML it ends up in) small.
   const dotStep = 9;
   const startY = h * 0.62;
-  for (let y = startY; y < h; y += dotStep) {
-    for (let x = dotStep / 2; x < w; x += dotStep) {
-      const t = (y - startY) / (h - startY); // 0..1 toward the bottom
-      const r = 0.6 + t * 2.4;
-      parts.push(`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(
-        2,
-      )}" fill="rgba(0,0,0,${(0.05 + t * 0.16).toFixed(2)})"/>`);
-    }
-  }
+  parts.push(
+    `<pattern id="dots-${article.slug}" width="${dotStep}" height="${dotStep}" patternUnits="userSpaceOnUse">` +
+      `<circle cx="${dotStep / 2}" cy="${dotStep / 2}" r="1.7" fill="rgba(0,0,0,0.12)"/>` +
+      `</pattern>`,
+  );
+  parts.push(
+    `<rect x="0" y="${startY.toFixed(1)}" width="${w}" height="${(h - startY).toFixed(
+      1,
+    )}" fill="url(#dots-${article.slug})"/>`,
+  );
 
   // 4. Horizontal newsprint rules near the top, like a press registration mark.
   let ruleY = h * 0.06;

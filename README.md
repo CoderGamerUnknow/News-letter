@@ -34,6 +34,7 @@ down it keeps the previous snapshot and never fails the build.
 | `/search` | `app/search/page.tsx` | Client-side search across the edition |
 | `/api/live` | `app/api/live/route.ts` | On-demand headlines for client polling |
 | `not-found` | `app/not-found.tsx` | Unknown slugs and unmatched URLs |
+| — | `proxy.ts` | Rejects unknown dynamic slugs with an immediate 404 |
 | `/sitemap.xml`, `/robots.txt`, `/feed.xml` | `app/sitemap.ts`, `app/robots.ts`, `app/feed.xml/route.ts` | Generated from the same dataset |
 
 ## Features
@@ -41,9 +42,11 @@ down it keeps the previous snapshot and never fails the build.
 - **Content at scale** — 20 hand-written features plus a seeded, deterministic
   wire-story generator (`lib/generate.ts`) that fills the edition to hundreds of
   stories. Bump `WIRE_STORY_COUNT` in `lib/articles.ts` to grow it.
-- **Real global news** — BBC, The Guardian, NYT, Al Jazeera, NPR and Dow Jones
-  feeds are pulled at build time and shown in the breaking ticker and per-section
-  "Live Wire" blocks, each linking out to the original publisher.
+- **Real news wire** — 53 RSS feeds across all three regions are pulled at build
+  time and shown in the breaking ticker, the per-section "Live Wire" blocks and
+  the region browser, each linking out to the original publisher. Every region ×
+  sub-topic has at least two sources, and a feed that is down, slow or malformed
+  is skipped rather than failing the build.
 - **News by region** — `/news` (and a front-page block) groups live headlines into
   **Nigerian News**, **Indian News** and **Global News**. Nigerian and Indian
   outlets are included alongside the global wires. Each region lists its
@@ -51,7 +54,12 @@ down it keeps the previous snapshot and never fails the build.
   always-visible headings you scroll through; the region tabs are a full ARIA
   tablist with arrow-key navigation.
 - **Live updates** — the ticker and live wires poll `/api/live` every few
-  minutes, so headlines refresh without a rebuild.
+  minutes, so headlines refresh without a rebuild. The route caches the wire for
+  three minutes and returns the newest headlines per region, so polling never
+  hammers every feed.
+- **Instant routes** — article, section and author pages render a static shell
+  and stream only the slug-dependent content, and `proxy.ts` validates the slug
+  up front so an unknown URL is a real 404 on the first request.
 - **Search** — `/search` filters the whole edition in the browser (`lib/search.ts`).
 - **Author pages** — bylines link to `/author/[slug]`.
 - **Related stories** — scored by keyword overlap, not just section.
@@ -76,7 +84,10 @@ snapshot `lib/live-news.json`), with `getLiveByRegion` and `groupByTopic`
 helpers backing the region browser. The regions and their RSS feeds are defined
 once in `lib/feeds.json`, which both the runtime fetcher (`lib/rss.ts`) and the
 build-time script (`scripts/fetch-news.mjs`) read, so they cannot drift apart.
-Add a feed there and it appears in its region and section automatically.
+Add a feed there and it appears in its region and section automatically. The
+sub-topic vocabulary is `Top Stories`, `Politics`, `Business`, `Technology`,
+`Sports`, `Culture`; the paper's own "World" section maps onto `Top Stories`
+(`sectionToTopic`).
 
 ## Styling
 

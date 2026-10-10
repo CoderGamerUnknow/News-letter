@@ -33,10 +33,18 @@ export function SiteNav() {
         })}
       </ul>
       <div className={styles.navUtility}>
-        <Link href="/news" className={styles.navSearch}>
+        <Link
+          href="/news"
+          className={pathname === "/news" ? styles.navSearchActive : styles.navSearch}
+          aria-current={pathname === "/news" ? "page" : undefined}
+        >
           News
         </Link>
-        <Link href="/search" className={styles.navSearch}>
+        <Link
+          href="/search"
+          className={pathname === "/search" ? styles.navSearchActive : styles.navSearch}
+          aria-current={pathname === "/search" ? "page" : undefined}
+        >
           <span aria-hidden="true">🔍</span> Search
         </Link>
       </div>

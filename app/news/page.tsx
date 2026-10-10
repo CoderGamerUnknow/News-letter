@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import styles from "./news.module.css";
-import { liveStories, seedLiveStories } from "@/lib/live-news";
+import { getBreaking, seedLiveStories } from "@/lib/live-news";
 import { newspaper } from "@/lib/articles";
 import { Page, SiteFooter, SiteHeader } from "@/app/components/news-ui";
 import { BreakingTickerClient } from "@/app/components/live-views";
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default function NewsPage() {
   return (
     <Page>
-      <BreakingTickerClient initial={liveStories.slice(0, 12)} />
+      <BreakingTickerClient initial={getBreaking(12)} />
       <SiteHeader />
 
       <main className={styles.main} id="main-content">

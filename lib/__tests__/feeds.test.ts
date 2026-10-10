@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { feeds, newsRegions, topicLabel, topicOrder } from "../feeds";
+import { feeds, newsRegions, sectionToTopic, topicLabel, topicOrder } from "../feeds";
 import { groupByTopic, type LiveStory } from "../live-news";
+import { articleSlugs, authorSlugs, sectionSlugs } from "../slug-index";
 
 const REGION_IDS = new Set(newsRegions.map((region) => region.id));
 
@@ -9,7 +10,7 @@ function story(overrides: Partial<LiveStory>): LiveStory {
     title: "Headline",
     link: "https://example.com/story",
     summary: "",
-    section: "World",
+    section: "Top Stories",
     region: "world",
     source: "Example",
     date: "2026-10-09",
@@ -29,6 +30,16 @@ describe("region metadata", () => {
   it("gives every region at least one feed", () => {
     for (const region of newsRegions) {
       expect(feeds.some((feed) => feed.region === region.id)).toBe(true);
+    }
+  });
+
+  it("covers every sub-topic in every region", () => {
+    for (const region of newsRegions) {
+      for (const topic of topicOrder) {
+        expect(feeds.some((feed) => feed.region === region.id && feed.section === topic)).toBe(
+          true,
+        );
+      }
     }
   });
 
@@ -53,18 +64,26 @@ describe("topic grouping", () => {
     const stories = [
       story({ section: "Sports" }),
       story({ section: "Business" }),
-      story({ section: "World" }),
+      story({ section: "Top Stories" }),
     ];
     const groups = groupByTopic(stories);
-    expect(groups.map((group) => group.section)).toEqual(["World", "Business", "Sports"]);
-    expect(groups.map((group) => group.label)).toEqual(["Top Stories", "Business", "Sports"]);
+    expect(groups.map((group) => group.section)).toEqual([
+      "Top Stories",
+      "Business",
+      "Sports",
+    ]);
+    expect(groups.map((group) => group.label)).toEqual([
+      "Top Stories",
+      "Business",
+      "Sports",
+    ]);
   });
 
   it("honours the per-topic limit", () => {
     const stories = [
-      story({ section: "World", link: "https://example.com/1" }),
-      story({ section: "World", link: "https://example.com/2" }),
-      story({ section: "World", link: "https://example.com/3" }),
+      story({ section: "Top Stories", link: "https://example.com/1" }),
+      story({ section: "Top Stories", link: "https://example.com/2" }),
+      story({ section: "Top Stories", link: "https://example.com/3" }),
     ];
     const groups = groupByTopic(stories, 2);
     expect(groups).toHaveLength(1);
@@ -75,8 +94,25 @@ describe("topic grouping", () => {
     expect(groupByTopic([])).toEqual([]);
   });
 
-  it("labels the generic World bucket as Top Stories", () => {
-    expect(topicLabel("World")).toBe("Top Stories");
-    expect(topicLabel("Politics")).toBe("Politics");
+  it("maps the paper's World section onto Top Stories", () => {
+    expect(sectionToTopic("World")).toBe("Top Stories");
+    expect(sectionToTopic("Politics")).toBe("Politics");
+    expect(topicLabel("Top Stories")).toBe("Top Stories");
+  });
+});
+
+describe("slug index", () => {
+  it("contains slugs for every dynamic route", () => {
+    expect(articleSlugs.size).toBeGreaterThan(200);
+    expect(sectionSlugs.size).toBe(6);
+    expect(authorSlugs.size).toBeGreaterThan(10);
+  });
+
+  it("holds the known slugs and rejects invented ones", () => {
+    expect(articleSlugs.has("harbor-treaty-signed")).toBe(true);
+    expect(sectionSlugs.has("world")).toBe(true);
+    expect(articleSlugs.has("never-seen-abc")).toBe(false);
+    expect(sectionSlugs.has("nigeria")).toBe(false);
+    expect(authorSlugs.has("nobody-xyz")).toBe(false);
   });
 });

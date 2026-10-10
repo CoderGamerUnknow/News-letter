@@ -3,7 +3,6 @@ import styles from "./news-ui.module.css";
 import { storyArtSvg } from "./story-art";
 import { PhotoLayer } from "./photo-layer";
 import { SiteNav } from "./site-nav";
-import { getBreaking, hasLiveNews, type LiveStory } from "@/lib/live-news";
 import {
   authorSlug,
   formatDate,
@@ -127,91 +126,3 @@ export function SectionHeading({ children }: { children: React.ReactNode }) {
   );
 }
 
-/**
- * A scrolling "breaking" strip of real headlines pulled from global feeds at
- * build time. Purely presentational and CSS-driven — no client JS — and it
- * renders nothing when the wire is empty.
- */
-export function BreakingTicker() {
-  if (!hasLiveNews) return null;
-  const headlines = getBreaking(12);
-
-  // Duplicate the list so the marquee can loop seamlessly.
-  const loop = [...headlines, ...headlines];
-
-  return (
-    <div className={styles.ticker} role="region" aria-label="Breaking news">
-      <span className={styles.tickerBadge}>Breaking</span>
-      <div className={styles.tickerViewport}>
-        <div className={styles.tickerTrack}>
-          {loop.map((story, index) => {
-            // The second pass only exists to loop the marquee, so hide it from
-            // assistive tech and keep its links out of the tab order.
-            const duplicate = index >= headlines.length;
-            return (
-              <span
-                key={`${story.link}-${index}`}
-                className={styles.tickerItem}
-                aria-hidden={duplicate ? "true" : undefined}
-              >
-                <a
-                  href={story.link}
-                  target="_blank"
-                  rel="noreferrer"
-                  tabIndex={duplicate ? -1 : undefined}
-                >
-                  {story.title}
-                </a>
-                <span className={styles.tickerDot} aria-hidden="true">•</span>
-              </span>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/**
- * A "Live Wire" block of real headlines for a section, each linking out to its
- * original publisher with a source credit and relative date.
- */
-export function LiveWire({ stories, title = "Live Wire" }: { stories: LiveStory[]; title?: string }) {
-  if (stories.length === 0) return null;
-
-  return (
-    <section className={styles.liveWire} aria-label={`${title} — real-time headlines`}>
-      <div className={styles.liveWireHeader}>
-        <span className={styles.livePulse} aria-hidden="true" />
-        <h2 className={styles.liveWireTitle}>{title}</h2>
-        <span className={styles.liveWireNote}>from global wires</span>
-      </div>
-      <ul className={styles.liveList}>
-        {stories.map((story) => (
-          <li key={story.link} className={styles.liveItem}>
-            <a
-              href={story.link}
-              target="_blank"
-              rel="noreferrer"
-              className={styles.liveLink}
-            >
-              <span className={styles.liveHeadline}>{story.title}</span>
-              <span className={styles.liveMeta}>
-                <span className={styles.liveSource}>{story.source}</span>
-                {story.date ? (
-                  <time dateTime={story.date}>
-                    {new Date(`${story.date}T00:00:00Z`).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      timeZone: "UTC",
-                    })}
-                  </time>
-                ) : null}
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}

@@ -1,5 +1,11 @@
 import snapshot from "./live-news.json";
-import { newsRegions, topicOrder, topicLabel, type RegionId } from "./feeds";
+import {
+  newsRegions,
+  sectionToTopic,
+  topicLabel,
+  topicOrder,
+  type RegionId,
+} from "./feeds";
 
 /**
  * A real headline pulled from a global news feed at build time.
@@ -22,9 +28,6 @@ type Snapshot = { fetchedAt: string; stories: LiveStory[] };
 
 const data = snapshot as Snapshot;
 
-/** When the snapshot was pulled, or null if there is no data yet. */
-export const liveFetchedAt: string | null = data.fetchedAt || null;
-
 /**
  * Every live story in the snapshot, newest first. Snapshots written before
  * regions existed are normalized to the global region rather than dropped.
@@ -33,12 +36,22 @@ export const liveStories: LiveStory[] = (Array.isArray(data.stories) ? data.stor
   (story) => ({ ...story, region: story.region ?? "world" }),
 );
 
-/** True when the wire has real headlines to show. */
-export const hasLiveNews: boolean = liveStories.length > 0;
-
-/** Live stories for one section, newest first. Section names match ours. */
-export function getLiveBySection(section: string, limit = 6): LiveStory[] {
-  return liveStories.filter((story) => story.section === section).slice(0, limit);
+/**
+ * Live stories for one newspaper section, newest first. The paper's "World"
+ * section maps onto the live wire's "Top Stories" bucket, and by default only
+ * the global wire is used so a section page reads as one coherent edition
+ * rather than a mix of regional feeds. Regional headlines live in the region
+ * browser (`getLiveByRegion`).
+ */
+export function getLiveBySection(
+  section: string,
+  limit = 6,
+  region: RegionId = "world",
+): LiveStory[] {
+  const topic = sectionToTopic(section);
+  return liveStories
+    .filter((story) => story.section === topic && story.region === region)
+    .slice(0, limit);
 }
 
 /** Live stories for one region, newest first. */
@@ -79,12 +92,7 @@ export function seedLiveStories(perTopic = 8): LiveStory[] {
   );
 }
 
-/** The freshest headlines across every section — used for the breaking ticker. */
+/** The freshest headlines across every region — used for the breaking ticker. */
 export function getBreaking(limit = 10): LiveStory[] {
   return liveStories.slice(0, limit);
-}
-
-/** Source names present in the wire, for credit lines. */
-export function getLiveSources(): string[] {
-  return [...new Set(liveStories.map((story) => story.source))].sort();
 }

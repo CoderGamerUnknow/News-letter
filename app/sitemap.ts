@@ -17,6 +17,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 1,
     },
+    {
+      url: absoluteUrl("/news"),
+      lastModified: newest.date,
+      changeFrequency: "hourly",
+      priority: 0.9,
+    },
   ];
 
   const sectionPages: MetadataRoute.Sitemap = sections.map((section) => ({
