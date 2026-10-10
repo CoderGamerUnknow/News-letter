@@ -27,6 +27,11 @@ export function generateStaticParams() {
   return articles.map((article) => ({ slug: article.slug }));
 }
 
+// This route's entire shell (header highlight, story, footer note) depends on
+// the slug, so it intentionally blocks on URL data rather than streaming an
+// instant static shell. This is the documented opt-out for that case.
+export const instant = false;
+
 export async function generateMetadata(
   props: PageProps<"/article/[slug]">,
 ): Promise<Metadata> {

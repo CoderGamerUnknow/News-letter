@@ -25,6 +25,11 @@ export function generateStaticParams() {
   return sections.map((section) => ({ slug: sectionSlug(section) }));
 }
 
+// Like the article route, this page's shell depends on the slug (active nav
+// highlight, section lead, paginated grid, live wire), so it opts out of
+// instant-navigation validation and blocks on URL data by design.
+export const instant = false;
+
 export async function generateMetadata(
   props: PageProps<"/section/[slug]">,
 ): Promise<Metadata> {
