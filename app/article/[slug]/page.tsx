@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import styles from "./article.module.css";
 import {
   articles,
@@ -27,19 +28,16 @@ export function generateStaticParams() {
   return articles.map((article) => ({ slug: article.slug }));
 }
 
-// This route's entire shell (header highlight, story, footer note) depends on
-// the slug, so it intentionally blocks on URL data rather than streaming an
-// instant static shell. This is the documented opt-out for that case.
-export const instant = false;
-
 export async function generateMetadata(
   props: PageProps<"/article/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const article = getArticleBySlug(slug);
 
+  // Metadata resolves before the shell streams, so an unknown slug is a real
+  // 404 here rather than a streamed "not found" under a 200 shell.
   if (!article) {
-    return { title: "Story not found" };
+    notFound();
   }
 
   return {
@@ -63,8 +61,30 @@ export async function generateMetadata(
   };
 }
 
-export default async function ArticlePage(props: PageProps<"/article/[slug]">) {
-  const { slug } = await props.params;
+/**
+ * The shell — masthead, nav and page frame — is static and renders instantly.
+ * Only the story itself waits on the slug, inside Suspense, so the route
+ * streams an instant shell for navigation instead of blocking on URL data.
+ * The active section is highlighted by the client nav from the pathname.
+ */
+export default function ArticlePage(props: PageProps<"/article/[slug]">) {
+  return (
+    <Page>
+      <SiteHeader />
+
+      <Suspense fallback={<ArticleLoading />}>
+        <ArticleContent params={props.params} />
+      </Suspense>
+    </Page>
+  );
+}
+
+async function ArticleContent({
+  params,
+}: {
+  params: PageProps<"/article/[slug]">["params"];
+}) {
+  const { slug } = await params;
   const article = getArticleBySlug(slug);
 
   if (!article) {
@@ -74,9 +94,7 @@ export default async function ArticlePage(props: PageProps<"/article/[slug]">) {
   const { sameSection, elsewhere } = getRelatedStories(article);
 
   return (
-    <Page>
-      <SiteHeader activeSection={article.section} />
-
+    <>
       <main className={styles.main} id="main-content">
         <article className={styles.story}>
           <p className={styles.kicker}>
@@ -139,6 +157,14 @@ export default async function ArticlePage(props: PageProps<"/article/[slug]">) {
       </main>
 
       <SiteFooter note={`${article.section} · ${article.readingTime} min read`} />
-    </Page>
+    </>
+  );
+}
+
+function ArticleLoading() {
+  return (
+    <main className={styles.main} id="main-content">
+      <p className={styles.loading}>Loading story…</p>
+    </main>
   );
 }

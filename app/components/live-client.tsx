@@ -29,6 +29,7 @@ export function useLiveStories(initial: LiveStory[]): LiveStory[] {
             link: story.link ?? "",
             summary: story.summary ?? "",
             section: story.section ?? "",
+            region: story.region ?? "world",
             source: story.source ?? "",
             date: story.date ?? "",
           }));

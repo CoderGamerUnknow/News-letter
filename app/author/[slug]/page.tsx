@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import styles from "./author.module.css";
 import {
   authorFromSlug,
@@ -26,7 +27,10 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const author = authorFromSlug(slug);
-  if (!author) return { title: "Author not found" };
+
+  // Metadata resolves before the shell streams, so an unknown slug is a real
+  // 404 here rather than a streamed "not found" under a 200 shell.
+  if (!author) notFound();
 
   return {
     title: `By ${author}`,
@@ -34,8 +38,28 @@ export async function generateMetadata(
   };
 }
 
-export default async function AuthorPage(props: PageProps<"/author/[slug]">) {
-  const { slug } = await props.params;
+/**
+ * The shell renders instantly; only the contributor's stories wait on the slug,
+ * inside Suspense, so navigation is never blocked by URL data.
+ */
+export default function AuthorPage(props: PageProps<"/author/[slug]">) {
+  return (
+    <Page>
+      <SiteHeader />
+
+      <Suspense fallback={<AuthorLoading />}>
+        <AuthorContent params={props.params} />
+      </Suspense>
+    </Page>
+  );
+}
+
+async function AuthorContent({
+  params,
+}: {
+  params: PageProps<"/author/[slug]">["params"];
+}) {
+  const { slug } = await params;
   const author = authorFromSlug(slug);
   if (!author) notFound();
 
@@ -43,9 +67,7 @@ export default async function AuthorPage(props: PageProps<"/author/[slug]">) {
   const [lead, ...rest] = stories;
 
   return (
-    <Page>
-      <SiteHeader />
-
+    <>
       <main className={styles.main} id="main-content">
         <header className={styles.header}>
           <p className={styles.kicker}>Contributor · {newspaper.name}</p>
@@ -81,6 +103,14 @@ export default async function AuthorPage(props: PageProps<"/author/[slug]">) {
       </main>
 
       <SiteFooter note={`Contributor · ${author}`} />
-    </Page>
+    </>
+  );
+}
+
+function AuthorLoading() {
+  return (
+    <main className={styles.main} id="main-content">
+      <p className={styles.loading}>Loading contributor…</p>
+    </main>
   );
 }

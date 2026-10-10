@@ -12,44 +12,25 @@
  * Env:    FETCH_TIMEOUT_MS (per-feed timeout, default 12000)
  */
 
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_FILE = join(ROOT, "lib", "live-news.json");
+const FEEDS_FILE = join(ROOT, "lib", "feeds.json");
 const TIMEOUT_MS = Number(process.env.FETCH_TIMEOUT_MS ?? 12000);
 
 /**
- * Global sources mapped onto the paper's six sections. We deliberately pull
- * from several outlets so the wire is not a single voice.
+ * Regions, sections and feed URLs live in `lib/feeds.json` so the build-time
+ * and runtime fetchers can never drift apart. We deliberately pull from
+ * several outlets per region so the wire is not a single voice.
  */
-const FEEDS = [
-  // World
-  { source: "BBC News", section: "World", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
-  { source: "The Guardian", section: "World", url: "https://www.theguardian.com/world/rss" },
-  { source: "NYT World", section: "World", url: "https://rss.nytimes.com/services/xml/rss/nyt/World.xml" },
-  { source: "Al Jazeera", section: "World", url: "https://www.aljazeera.com/xml/rss/all.xml" },
-  // Politics
-  { source: "BBC News", section: "Politics", url: "https://feeds.bbci.co.uk/news/politics/rss.xml" },
-  { source: "NYT Politics", section: "Politics", url: "https://rss.nytimes.com/services/xml/rss/nyt/politics.xml" },
-  // Business
-  { source: "BBC News", section: "Business", url: "https://feeds.bbci.co.uk/news/business/rss.xml" },
-  { source: "The Guardian", section: "Business", url: "https://www.theguardian.com/business/rss" },
-  { source: "NYT Business", section: "Business", url: "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml" },
-  { source: "Dow Jones", section: "Business", url: "https://feeds.content.dowjones.io/public/rss/RSSWorldNews" },
-  // Technology
-  { source: "BBC News", section: "Technology", url: "https://feeds.bbci.co.uk/news/technology/rss.xml" },
-  { source: "The Guardian", section: "Technology", url: "https://www.theguardian.com/technology/rss" },
-  { source: "NYT Technology", section: "Technology", url: "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml" },
-  { source: "NPR", section: "Technology", url: "https://feeds.npr.org/1004/rss.xml" },
-  // Culture
-  { source: "The Guardian", section: "Culture", url: "https://www.theguardian.com/culture/rss" },
-  { source: "BBC News", section: "Culture", url: "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml" },
-  // Sports
-  { source: "The Guardian", section: "Sports", url: "https://www.theguardian.com/sport/rss" },
-  { source: "BBC Sport", section: "Sports", url: "https://feeds.bbci.co.uk/sport/world/rss.xml" },
-];
+async function loadFeeds() {
+  const raw = await readFile(FEEDS_FILE, "utf8");
+  const data = JSON.parse(raw);
+  return Array.isArray(data.feeds) ? data.feeds : [];
+}
 
 /** Pull the inner text of the first matching tag inside `xml`. */
 function pickTag(xml, tag) {
@@ -81,6 +62,7 @@ function parseRss(xml, feed) {
       link,
       summary: description,
       section: feed.section,
+      region: feed.region,
       source: feed.source,
       date: iso,
     };
@@ -100,7 +82,7 @@ async function fetchFeed(feed) {
     const xml = await res.text();
     return parseRss(xml, feed);
   } catch (err) {
-    console.warn(`  ! skip ${feed.source} (${feed.section}): ${err.message}`);
+    console.warn(`  ! skip ${feed.source} (${feed.region}/${feed.section}): ${err.message}`);
     return [];
   } finally {
     clearTimeout(timer);
@@ -108,7 +90,8 @@ async function fetchFeed(feed) {
 }
 
 async function main() {
-  console.log(`Fetching ${FEEDS.length} global feeds...`);
+  const FEEDS = await loadFeeds();
+  console.log(`Fetching ${FEEDS.length} feeds across all regions...`);
   const results = await Promise.all(FEEDS.map(fetchFeed));
   let stories = results.flat();
 

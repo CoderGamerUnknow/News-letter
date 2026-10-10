@@ -98,6 +98,15 @@
   margin-top: 36px;
 }
 
+/* Shown inside the Suspense boundary while the story streams in. */
+.loading {
+  margin: 20px 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 600px) {

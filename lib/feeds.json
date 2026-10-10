@@ -1,0 +1,53 @@
+{
+  "regions": [
+    { "id": "nigeria", "label": "Nigerian News" },
+    { "id": "india", "label": "Indian News" },
+    { "id": "world", "label": "Global News" }
+  ],
+  "feeds": [
+    { "source": "Premium Times", "region": "nigeria", "section": "World", "url": "https://www.premiumtimesng.com/feed" },
+    { "source": "Punch", "region": "nigeria", "section": "World", "url": "https://punchng.com/feed/" },
+    { "source": "Vanguard", "region": "nigeria", "section": "World", "url": "https://www.vanguardngr.com/feed/" },
+    { "source": "The Guardian Nigeria", "region": "nigeria", "section": "World", "url": "https://guardian.ng/feed/" },
+    { "source": "Channels TV", "region": "nigeria", "section": "World", "url": "https://www.channelstv.com/feed/" },
+    { "source": "Daily Post Nigeria", "region": "nigeria", "section": "World", "url": "https://dailypost.ng/feed/" },
+    { "source": "Premium Times", "region": "nigeria", "section": "Politics", "url": "https://www.premiumtimesng.com/category/politics/feed" },
+    { "source": "Vanguard", "region": "nigeria", "section": "Politics", "url": "https://www.vanguardngr.com/category/politics/feed/" },
+    { "source": "Punch", "region": "nigeria", "section": "Politics", "url": "https://punchng.com/topics/politics/feed/" },
+    { "source": "Vanguard", "region": "nigeria", "section": "Business", "url": "https://www.vanguardngr.com/category/business/feed/" },
+    { "source": "Premium Times", "region": "nigeria", "section": "Business", "url": "https://www.premiumtimesng.com/category/business/feed" },
+    { "source": "Punch", "region": "nigeria", "section": "Business", "url": "https://punchng.com/topics/business/feed/" },
+    { "source": "Vanguard", "region": "nigeria", "section": "Sports", "url": "https://www.vanguardngr.com/category/sports/feed/" },
+    { "source": "Punch", "region": "nigeria", "section": "Sports", "url": "https://punchng.com/topics/sports/feed/" },
+
+    { "source": "Times of India", "region": "india", "section": "World", "url": "https://timesofindia.indiatimes.com/rssfeedstopstories.cms" },
+    { "source": "NDTV", "region": "india", "section": "World", "url": "https://feeds.feedburner.com/ndtvnews-top-stories" },
+    { "source": "The Indian Express", "region": "india", "section": "World", "url": "https://indianexpress.com/feed/" },
+    { "source": "The Hindu", "region": "india", "section": "World", "url": "https://www.thehindu.com/news/national/feeder/default.rss" },
+    { "source": "NDTV", "region": "india", "section": "Politics", "url": "https://feeds.feedburner.com/ndtvnews-india-news" },
+    { "source": "The Hindu", "region": "india", "section": "Business", "url": "https://www.thehindu.com/business/feeder/default.rss" },
+    { "source": "Business Standard", "region": "india", "section": "Business", "url": "https://www.business-standard.com/rss/home_page_top_stories.rss" },
+    { "source": "The Hindu", "region": "india", "section": "Technology", "url": "https://www.thehindu.com/sci-tech/technology/feeder/default.rss" },
+    { "source": "The Hindu", "region": "india", "section": "Sports", "url": "https://www.thehindu.com/sport/feeder/default.rss" },
+    { "source": "NDTV", "region": "india", "section": "Sports", "url": "https://feeds.feedburner.com/ndtvnews-sports" },
+
+    { "source": "BBC News", "region": "world", "section": "World", "url": "https://feeds.bbci.co.uk/news/world/rss.xml" },
+    { "source": "The Guardian", "region": "world", "section": "World", "url": "https://www.theguardian.com/world/rss" },
+    { "source": "NYT World", "region": "world", "section": "World", "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml" },
+    { "source": "Al Jazeera", "region": "world", "section": "World", "url": "https://www.aljazeera.com/xml/rss/all.xml" },
+    { "source": "BBC News", "region": "world", "section": "Politics", "url": "https://feeds.bbci.co.uk/news/politics/rss.xml" },
+    { "source": "NYT Politics", "region": "world", "section": "Politics", "url": "https://rss.nytimes.com/services/xml/rss/nyt/politics.xml" },
+    { "source": "BBC News", "region": "world", "section": "Business", "url": "https://feeds.bbci.co.uk/news/business/rss.xml" },
+    { "source": "The Guardian", "region": "world", "section": "Business", "url": "https://www.theguardian.com/business/rss" },
+    { "source": "NYT Business", "region": "world", "section": "Business", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml" },
+    { "source": "Dow Jones", "region": "world", "section": "Business", "url": "https://feeds.content.dowjones.io/public/rss/RSSWorldNews" },
+    { "source": "BBC News", "region": "world", "section": "Technology", "url": "https://feeds.bbci.co.uk/news/technology/rss.xml" },
+    { "source": "The Guardian", "region": "world", "section": "Technology", "url": "https://www.theguardian.com/technology/rss" },
+    { "source": "NYT Technology", "region": "world", "section": "Technology", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml" },
+    { "source": "NPR", "region": "world", "section": "Technology", "url": "https://feeds.npr.org/1004/rss.xml" },
+    { "source": "The Guardian", "region": "world", "section": "Culture", "url": "https://www.theguardian.com/culture/rss" },
+    { "source": "BBC News", "region": "world", "section": "Culture", "url": "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml" },
+    { "source": "The Guardian", "region": "world", "section": "Sports", "url": "https://www.theguardian.com/sport/rss" },
+    { "source": "BBC Sport", "region": "world", "section": "Sports", "url": "https://feeds.bbci.co.uk/sport/world/rss.xml" }
+  ]
+}

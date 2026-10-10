@@ -9,7 +9,7 @@ import {
   newspaper,
   type Article,
 } from "@/lib/articles";
-import { getLiveBySection, liveStories } from "@/lib/live-news";
+import { liveStories, seedLiveStories } from "@/lib/live-news";
 import {
   Byline,
   Page,
@@ -20,7 +20,8 @@ import {
   StoryGrid,
   Thumb,
 } from "./components/news-ui";
-import { BreakingTickerClient, LiveWireClient } from "./components/live-views";
+import { BreakingTickerClient } from "./components/live-views";
+import { RegionNews } from "./components/region-news";
 
 export const metadata: Metadata = {
   title: "Today's Front Page",
@@ -36,13 +37,11 @@ export default function Home() {
     ...secondary.map((article) => article.slug),
   ]);
 
-  const liveWorld = getLiveBySection("World", 6);
-  const liveTech = getLiveBySection("Technology", 6);
 
   return (
     <Page>
       <BreakingTickerClient initial={liveStories.slice(0, 12)} />
-      <SiteHeader />
+      <SiteHeader home />
 
       <main className={styles.main} id="main-content">
         <section className={styles.front} aria-label="Front page stories">
@@ -73,8 +72,7 @@ export default function Home() {
           </StoryGrid>
         </section>
 
-        <LiveWireClient initial={liveWorld} section="World" title="Live Wire — World" />
-        <LiveWireClient initial={liveTech} section="Technology" title="Live Wire — Technology" />
+        <RegionNews initial={seedLiveStories(4)} heading="Latest by Region" limitPerTopic={4} />
       </main>
 
       <SiteFooter note={`${articles.length} stories in today's edition.`} />

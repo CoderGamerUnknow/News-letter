@@ -30,6 +30,7 @@ down it keeps the previous snapshot and never fails the build.
 | `/article/[slug]/opengraph-image` | `app/article/[slug]/opengraph-image.tsx` | Generated social card per story (`next/og`) |
 | `/section/[slug]` | `app/section/[slug]/page.tsx` | Section front, paginated story grid, live wire |
 | `/author/[slug]` | `app/author/[slug]/page.tsx` | Every story by one contributor |
+| `/news` | `app/news/page.tsx` | Live headlines by region (Nigerian / Indian / Global) |
 | `/search` | `app/search/page.tsx` | Client-side search across the edition |
 | `/api/live` | `app/api/live/route.ts` | On-demand headlines for client polling |
 | `not-found` | `app/not-found.tsx` | Unknown slugs and unmatched URLs |
@@ -43,6 +44,12 @@ down it keeps the previous snapshot and never fails the build.
 - **Real global news** — BBC, The Guardian, NYT, Al Jazeera, NPR and Dow Jones
   feeds are pulled at build time and shown in the breaking ticker and per-section
   "Live Wire" blocks, each linking out to the original publisher.
+- **News by region** — `/news` (and a front-page block) groups live headlines into
+  **Nigerian News**, **Indian News** and **Global News**. Nigerian and Indian
+  outlets are included alongside the global wires. Each region lists its
+  sub-topics (Top Stories, Politics, Business, Technology, Sports, Culture) as
+  always-visible headings you scroll through; the region tabs are a full ARIA
+  tablist with arrow-key navigation.
 - **Live updates** — the ticker and live wires poll `/api/live` every few
   minutes, so headlines refresh without a rebuild.
 - **Search** — `/search` filters the whole edition in the browser (`lib/search.ts`).
@@ -65,7 +72,11 @@ Everything lives in [`lib/articles.ts`](lib/articles.ts):
   `sectionSlug`/`sectionFromSlug`, `authorSlug`/`authorFromSlug`, `formatDate`.
 
 Live headlines live in `lib/live-news.ts` (a typed loader over the build-time
-snapshot `lib/live-news.json`).
+snapshot `lib/live-news.json`), with `getLiveByRegion` and `groupByTopic`
+helpers backing the region browser. The regions and their RSS feeds are defined
+once in `lib/feeds.json`, which both the runtime fetcher (`lib/rss.ts`) and the
+build-time script (`scripts/fetch-news.mjs`) read, so they cannot drift apart.
+Add a feed there and it appears in its region and section automatically.
 
 ## Styling
 

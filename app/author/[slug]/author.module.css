@@ -48,6 +48,15 @@
   color: var(--ink-soft);
 }
 
+/* Shown inside the Suspense boundary while the contributor streams in. */
+.loading {
+  margin: 20px 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
 @media (max-width: 600px) {
   .main {
     padding: 20px 18px 36px;

@@ -17,18 +17,32 @@ export function BreakingTickerClient({ initial }: { initial: LiveStory[] }) {
   const loop = [...headlines, ...headlines];
 
   return (
-    <div className={styles.ticker} aria-label="Breaking news">
+    <div className={styles.ticker} role="region" aria-label="Breaking news">
       <span className={styles.tickerBadge}>Breaking</span>
       <div className={styles.tickerViewport}>
         <div className={styles.tickerTrack} key={stories.map((s) => s.link).join("|").slice(0, 64)}>
-          {loop.map((story, index) => (
-            <span key={`${story.link}-${index}`} className={styles.tickerItem}>
-              <a href={story.link} target="_blank" rel="noreferrer">
-                {story.title}
-              </a>
-              <span className={styles.tickerDot} aria-hidden="true">•</span>
-            </span>
-          ))}
+          {loop.map((story, index) => {
+            // The second pass only exists to loop the marquee, so hide it from
+            // assistive tech and keep its links out of the tab order.
+            const duplicate = index >= headlines.length;
+            return (
+              <span
+                key={`${story.link}-${index}`}
+                className={styles.tickerItem}
+                aria-hidden={duplicate ? "true" : undefined}
+              >
+                <a
+                  href={story.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  tabIndex={duplicate ? -1 : undefined}
+                >
+                  {story.title}
+                </a>
+                <span className={styles.tickerDot} aria-hidden="true">•</span>
+              </span>
+            );
+          })}
         </div>
       </div>
     </div>

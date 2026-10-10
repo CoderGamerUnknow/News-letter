@@ -110,6 +110,9 @@
   position: absolute;
   right: 20px;
   top: 50%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
   transform: translateY(-50%);
 }
 
@@ -122,6 +125,13 @@
 
 .navSearch:hover {
   color: var(--accent);
+}
+
+.navList a:focus-visible,
+.navSearch:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 @media (max-width: 700px) {

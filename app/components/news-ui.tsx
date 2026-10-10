@@ -2,16 +2,14 @@ import Link from "next/link";
 import styles from "./news-ui.module.css";
 import { storyArtSvg } from "./story-art";
 import { PhotoLayer } from "./photo-layer";
+import { SiteNav } from "./site-nav";
 import { getBreaking, hasLiveNews, type LiveStory } from "@/lib/live-news";
 import {
   authorSlug,
   formatDate,
   getFeatured,
   newspaper,
-  sections,
-  sectionSlug,
   type Article,
-  type Section,
 } from "@/lib/articles";
 
 /** Root wrapper that paints every newspaper route with the shared paper theme. */
@@ -19,8 +17,14 @@ export function Page({ children }: { children: React.ReactNode }) {
   return <div className={styles.page}>{children}</div>;
 }
 
-export function SiteHeader({ activeSection }: { activeSection?: Section }) {
+/**
+ * Masthead + nav. `home` renders the wordmark as the page's single `<h1>`;
+ * on content routes the route supplies its own `<h1>` and the wordmark is a
+ * plain paragraph, so no page ever ships two top-level headings.
+ */
+export function SiteHeader({ home = false }: { home?: boolean }) {
   const today = formatDate(getFeatured().date);
+  const wordmark = <Link href="/">{newspaper.name}</Link>;
 
   return (
     <>
@@ -34,35 +38,15 @@ export function SiteHeader({ activeSection }: { activeSection?: Section }) {
           <span>{today}</span>
           <span>Today&apos;s Edition</span>
         </div>
-        <h1 className={styles.wordmark}>
-          <Link href="/">{newspaper.name}</Link>
-        </h1>
+        {home ? (
+          <h1 className={styles.wordmark}>{wordmark}</h1>
+        ) : (
+          <p className={styles.wordmark}>{wordmark}</p>
+        )}
         <p className={styles.tagline}>{newspaper.tagline}</p>
       </header>
 
-      <nav className={styles.nav} aria-label="Sections">
-        <ul className={styles.navList}>
-          {sections.map((section) => {
-            const isActive = section === activeSection;
-            return (
-              <li key={section}>
-                <Link
-                  href={`/section/${sectionSlug(section)}`}
-                  className={isActive ? styles.navActive : undefined}
-                  aria-current={isActive ? "page" : undefined}
-                >
-                  {section}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-        <div className={styles.navUtility}>
-          <Link href="/search" className={styles.navSearch}>
-            🔍 Search
-          </Link>
-        </div>
-      </nav>
+      <SiteNav />
     </>
   );
 }
@@ -156,18 +140,32 @@ export function BreakingTicker() {
   const loop = [...headlines, ...headlines];
 
   return (
-    <div className={styles.ticker} aria-label="Breaking news">
+    <div className={styles.ticker} role="region" aria-label="Breaking news">
       <span className={styles.tickerBadge}>Breaking</span>
       <div className={styles.tickerViewport}>
         <div className={styles.tickerTrack}>
-          {loop.map((story, index) => (
-            <span key={`${story.link}-${index}`} className={styles.tickerItem}>
-              <a href={story.link} target="_blank" rel="noreferrer">
-                {story.title}
-              </a>
-              <span className={styles.tickerDot} aria-hidden="true">•</span>
-            </span>
-          ))}
+          {loop.map((story, index) => {
+            // The second pass only exists to loop the marquee, so hide it from
+            // assistive tech and keep its links out of the tab order.
+            const duplicate = index >= headlines.length;
+            return (
+              <span
+                key={`${story.link}-${index}`}
+                className={styles.tickerItem}
+                aria-hidden={duplicate ? "true" : undefined}
+              >
+                <a
+                  href={story.link}
+                  target="_blank"
+                  rel="noreferrer"
+                  tabIndex={duplicate ? -1 : undefined}
+                >
+                  {story.title}
+                </a>
+                <span className={styles.tickerDot} aria-hidden="true">•</span>
+              </span>
+            );
+          })}
         </div>
       </div>
     </div>

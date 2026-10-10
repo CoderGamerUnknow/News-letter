@@ -81,6 +81,15 @@
   color: var(--ink-soft);
 }
 
+/* Shown inside the Suspense boundary while the section streams in. */
+.loading {
+  margin: 20px 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--ink-soft);
+}
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 600px) {

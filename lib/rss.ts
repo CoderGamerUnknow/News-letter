@@ -4,34 +4,19 @@
  * dependency-free with a tolerant regex parser that handles CDATA and HTML.
  */
 
+import { feeds, type Feed, type RegionId } from "./feeds";
+
 export type RssStory = {
   title: string;
   link: string;
   summary: string;
   section: string;
+  region: RegionId;
   source: string;
   date: string;
 };
 
-type Feed = { source: string; section: string; url: string };
-
-const FEEDS: Feed[] = [
-  { source: "BBC News", section: "World", url: "https://feeds.bbci.co.uk/news/world/rss.xml" },
-  { source: "The Guardian", section: "World", url: "https://www.theguardian.com/world/rss" },
-  { source: "NYT World", section: "World", url: "https://rss.nytimes.com/services/xml/rss/nyt/World.xml" },
-  { source: "Al Jazeera", section: "World", url: "https://www.aljazeera.com/xml/rss/all.xml" },
-  { source: "BBC News", section: "Politics", url: "https://feeds.bbci.co.uk/news/politics/rss.xml" },
-  { source: "BBC News", section: "Business", url: "https://feeds.bbci.co.uk/news/business/rss.xml" },
-  { source: "The Guardian", section: "Business", url: "https://www.theguardian.com/business/rss" },
-  { source: "Dow Jones", section: "Business", url: "https://feeds.content.dowjones.io/public/rss/RSSWorldNews" },
-  { source: "BBC News", section: "Technology", url: "https://feeds.bbci.co.uk/news/technology/rss.xml" },
-  { source: "The Guardian", section: "Technology", url: "https://www.theguardian.com/technology/rss" },
-  { source: "NPR", section: "Technology", url: "https://feeds.npr.org/1004/rss.xml" },
-  { source: "The Guardian", section: "Culture", url: "https://www.theguardian.com/culture/rss" },
-  { source: "BBC News", section: "Culture", url: "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml" },
-  { source: "The Guardian", section: "Sports", url: "https://www.theguardian.com/sport/rss" },
-  { source: "BBC Sport", section: "Sports", url: "https://feeds.bbci.co.uk/sport/world/rss.xml" },
-];
+const FEEDS: Feed[] = feeds;
 
 const TIMEOUT_MS = 8000;
 
@@ -58,7 +43,15 @@ function parseRss(xml: string, feed: Feed): RssStory[] {
       const summary = clean(pickTag(item, "description")).slice(0, 240);
       const pubDate = pickTag(item, "pubDate");
       const date = pubDate ? new Date(pubDate).toISOString().slice(0, 10) : "";
-      return { title, link, summary, section: feed.section, source: feed.source, date };
+      return {
+        title,
+        link,
+        summary,
+        section: feed.section,
+        region: feed.region,
+        source: feed.source,
+        date,
+      };
     })
     .filter((story) => story.title && story.link);
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import styles from "./section.module.css";
 import {
   getArticlesBySection,
@@ -25,19 +26,16 @@ export function generateStaticParams() {
   return sections.map((section) => ({ slug: sectionSlug(section) }));
 }
 
-// Like the article route, this page's shell depends on the slug (active nav
-// highlight, section lead, paginated grid, live wire), so it opts out of
-// instant-navigation validation and blocks on URL data by design.
-export const instant = false;
-
 export async function generateMetadata(
   props: PageProps<"/section/[slug]">,
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const section = sectionFromSlug(slug);
 
+  // Metadata resolves before the shell streams, so an unknown slug is a real
+  // 404 here rather than a streamed "not found" under a 200 shell.
   if (!section) {
-    return { title: "Section not found" };
+    notFound();
   }
 
   return {
@@ -46,8 +44,30 @@ export async function generateMetadata(
   };
 }
 
-export default async function SectionPage(props: PageProps<"/section/[slug]">) {
-  const { slug } = await props.params;
+/**
+ * The shell — masthead, nav and page frame — is static and renders instantly.
+ * Only the section itself waits on the slug, inside Suspense, so the route
+ * streams an instant shell for navigation instead of blocking on URL data.
+ * The active section is highlighted by the client nav from the pathname.
+ */
+export default function SectionPage(props: PageProps<"/section/[slug]">) {
+  return (
+    <Page>
+      <SiteHeader />
+
+      <Suspense fallback={<SectionLoading />}>
+        <SectionContent params={props.params} />
+      </Suspense>
+    </Page>
+  );
+}
+
+async function SectionContent({
+  params,
+}: {
+  params: PageProps<"/section/[slug]">["params"];
+}) {
+  const { slug } = await params;
   const section = sectionFromSlug(slug);
 
   if (!section) {
@@ -59,9 +79,7 @@ export default async function SectionPage(props: PageProps<"/section/[slug]">) {
   const live = getLiveBySection(section, 8);
 
   return (
-    <Page>
-      <SiteHeader activeSection={section} />
-
+    <>
       <main className={styles.main} id="main-content">
         <header className={styles.sectionHeader}>
           <p className={styles.kicker}>
@@ -101,6 +119,14 @@ export default async function SectionPage(props: PageProps<"/section/[slug]">) {
       </main>
 
       <SiteFooter note={`Section · ${section}`} />
-    </Page>
+    </>
+  );
+}
+
+function SectionLoading() {
+  return (
+    <main className={styles.main} id="main-content">
+      <p className={styles.loading}>Loading section…</p>
+    </main>
   );
 }
