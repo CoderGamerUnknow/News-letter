@@ -1,4 +1,4 @@
-import type { Article } from "@/lib/articles";
+import type { StorySummary } from "@/lib/articles";
 import { hashString, mulberry32 } from "@/lib/random";
 
 /**
@@ -10,7 +10,11 @@ import { hashString, mulberry32 } from "@/lib/random";
  * silhouette, a halftone dot field and horizontal newsprint rules to evoke a
  * press-printed illustration rather than a plain gradient swatch.
  */
-export function storyArtSvg(article: Article, viewBoxWidth = 320, viewBoxHeight = 200): string {
+export function storyArtSvg(
+  article: StorySummary,
+  viewBoxWidth = 320,
+  viewBoxHeight = 200,
+): string {
   const [base, accent] = article.tone;
   const rand = mulberry32(hashString(article.slug));
   const w = viewBoxWidth;

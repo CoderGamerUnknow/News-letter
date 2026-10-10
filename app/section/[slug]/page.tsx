@@ -9,6 +9,7 @@ import {
   sectionFromSlug,
   sectionSlug,
   sections,
+  summarize,
 } from "@/lib/articles";
 import {
   Byline,
@@ -111,7 +112,7 @@ async function SectionContent({
         {rest.length > 0 ? (
           <section aria-label={`All ${section} stories`}>
             <SectionHeading>More in {section}</SectionHeading>
-            <StoryPager stories={rest} />
+            <StoryPager stories={rest.map(summarize)} />
           </section>
         ) : null}
 

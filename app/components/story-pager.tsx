@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Article } from "@/lib/articles";
+import type { StorySummary } from "@/lib/articles";
 import { StoryCard } from "./news-ui";
 import styles from "./story-pager.module.css";
 
@@ -12,7 +12,7 @@ const PAGE_SIZE = 9;
  * hundreds of stories does not dump them all into the DOM at once. The button
  * disappears once everything is shown.
  */
-export function StoryPager({ stories }: { stories: Article[] }) {
+export function StoryPager({ stories }: { stories: StorySummary[] }) {
   const [visible, setVisible] = useState(PAGE_SIZE);
   const shown = stories.slice(0, visible);
   const remaining = stories.length - shown.length;

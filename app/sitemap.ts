@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import {
   absoluteUrl,
   articles,
+  authorSlug,
+  getAllAuthors,
   getLatest,
   sectionSlug,
   sections,
@@ -39,5 +41,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...frontPage, ...sectionPages, ...storyPages];
+  const authorPages: MetadataRoute.Sitemap = getAllAuthors().map((author) => ({
+    url: absoluteUrl(`/author/${authorSlug(author)}`),
+    lastModified: newest.date,
+    changeFrequency: "weekly",
+    priority: 0.4,
+  }));
+
+  return [...frontPage, ...sectionPages, ...storyPages, ...authorPages];
 }

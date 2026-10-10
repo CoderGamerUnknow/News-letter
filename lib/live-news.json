@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-10-10T20:20:25.782Z",
+  "fetchedAt": "2026-10-10T20:29:41.506Z",
   "stories": [
     {
       "title": "Bayern strike late to avoid shock defeat at Augsburg",
@@ -77,6 +77,15 @@
       "title": "Ronaldo provisionally suspended by Portuguese FA",
       "link": "https://www.bbc.co.uk/sport/football/articles/cm4g13909lp7o?at_medium=RSS at_campaign=rss",
       "summary": "Cristiano Ronaldo has been provisionally suspended by the Portuguese Football Federation (FPF) after leaving his country's international camp last month.",
+      "section": "Sports",
+      "region": "world",
+      "source": "BBC Sport",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "'Reminds me of Muller' - Naderi proving worth in Rangers revival",
+      "link": "https://www.bbc.co.uk/sport/football/articles/cqzjx3z4ljr0o?at_medium=RSS at_campaign=rss",
+      "summary": "After a slow start to his Rangers career, striker Ryan Naderi is playing an integral role in the club's title challenge and proving his doubters wrong.",
       "section": "Sports",
       "region": "world",
       "source": "BBC Sport",
@@ -668,15 +677,6 @@
       "date": "2026-10-10"
     },
     {
-      "title": "Zelenskyy furious as Trump announces deal to buy Russian diesel",
-      "link": "https://www.theguardian.com/us-news/2026/oct/09/trump-putin-russian-diesel-ukraine",
-      "summary": "p US president says agreement needed to lower fuel prices, but move likely to create fresh crisis with Ukraine and Nato allies /p p Donald Trump is on a fresh collision course with Volodymyr Zelenskyy and European allies after his stunning ",
-      "section": "Business",
-      "region": "world",
-      "source": "The Guardian",
-      "date": "2026-10-10"
-    },
-    {
       "title": "Trump announces deal for Russian diesel as Zelensky calls it a gift to Putin",
       "link": "https://www.bbc.co.uk/news/articles/cm1dwgr666wno?at_medium=RSS at_campaign=rss",
       "summary": "Ukraine's president sharply criticised the move, calling it an \"investment in war that must be ended, not prolonged\".",
@@ -1124,6 +1124,114 @@
       "section": "Top Stories",
       "region": "world",
       "source": "NYT World",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Trump fumes over Nobel peace prize snub and criticizes Norway",
+      "link": "https://www.theguardian.com/us-news/2026/oct/09/trump-nobel-peace-prize",
+      "summary": "p President complains about not winning prize in year he started war with Iran and says: ‘We will not forget, Norway’ /p p Donald Trump complained Friday about not winning the Nobel peace prize for 2026, a year in which he started a war wit",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "‘We’re not asking for luxury’: school protesters in Paris suburb feel abandoned by French state",
+      "link": "https://www.theguardian.com/world/2026/oct/10/school-protesters-sevran-paris-suburb-france",
+      "summary": "p Students say they are desperate to get back to class but conditions are so bad that the protests must continue /p p On a normal school day, Mohammed, 17, wakes at 6am, cares for his younger siblings to help his single mother who works as ",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Zelenskyy furious as Trump announces deal to buy Russian diesel",
+      "link": "https://www.theguardian.com/us-news/2026/oct/09/trump-putin-russian-diesel-ukraine",
+      "summary": "p US president says agreement needed to lower fuel prices, but move likely to create fresh crisis with Ukraine and Nato allies /p p Donald Trump is on a fresh collision course with Volodymyr Zelenskyy and European allies after his stunning ",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Dozens injured and buildings damaged as tornadoes hit Sicily",
+      "link": "https://www.theguardian.com/world/2026/oct/10/tornado-hit-marsala-sicily-injuries-damage",
+      "summary": "p Marsala on island’s west coast badly affected after powerful storm approached from Mediterranean /p p Two tornadoes have struck the coastal town of Marsala in western Sicily, injuring dozens of people, damaging buildings including a schoo",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Ukraine hit by deadly Russian strikes as ‘thanks’ for Trump diesel deal, Zelenskyy says",
+      "link": "https://www.theguardian.com/world/2026/oct/10/ukraine-russia-strikes-war-trump-diesel-deal-zelenskyy",
+      "summary": "p Ukrainian president says money from fuel sales will intensify war as European leaders reiterate support for Kyiv /p p Russia launched deadly strikes on civilians in Ukraine as “thanks” for a deal cut by Donald Trump with Vladimir Putin to",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Falling international student numbers create ‘massive problems’ for Australian universities, expert warns",
+      "link": "https://www.theguardian.com/australia-news/2026/oct/11/falling-international-student-numbers-australian-universities",
+      "summary": "p Immigration debate and visa uncertainty is putting students off and increasing pressure on budgets /p ul li p Get our a href=\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\" breaking news email /a , a href=\"https://app.adjust.",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Albanese wants universal childcare to be his legacy. But paying for it isn’t as easy as ABC",
+      "link": "https://www.theguardian.com/australia-news/2026/oct/11/universal-childcare-cost-family-planning-politics",
+      "summary": "p Labor is running out of time to make its case to Australian families about how they are going to make childcare accessible and affordable for all /p ul li p Get our a href=\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\" new p",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Hanson seems more and more like the de facto opposition leader. At CPAC, Angus Taylor warmed the seat for her",
+      "link": "https://www.theguardian.com/australia-news/2026/oct/11/cpac-conference-pauline-hanson-angus-taylor-one-nation-liberals-cooperation-ntwnfb",
+      "summary": "p Cooperation between One Nation and the Liberals ‘up to Angus Taylor’, Pauline Hanson says at conservative conference. How would that work? /p ul li p Get our a href=\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\" new politica",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Powerful 7.7-magnitude earthquake strikes Panama and triggers panic in capital",
+      "link": "https://www.theguardian.com/world/2026/oct/09/panama-earthquake",
+      "summary": "p The quake caused buildings and roads to collapse but the country appeared to escape widespread destruction or deaths /p p A magnitude 7.7 earthquake struck southern Panama on Friday, damaging buildings and sending thousands into the stree",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Three men found guilty of murders of Australian surfer brothers and US friend in Mexico",
+      "link": "https://www.theguardian.com/world/2026/oct/10/jake-callum-robinson-australian-surfers-carter-rhoad-mexico-murder-guilty-verdict-ntwnfb",
+      "summary": "p Australian brothers Jake and Callum Robinson, 30 and 33, and friend Carter Rhoad, 30, were killed on a surfing trip in 2024 /p ul li p Get our a href=\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\" breaking news email /a , a ",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "‘Like a drill going into my eye’: why the mystery over Havana syndrome refuses to die",
+      "link": "https://www.theguardian.com/us-news/ng-interactive/2026/oct/10/havana-syndrome-mystery-cia-russia",
+      "summary": "p Dozens of CIA officers have been afflicted by debilitating symptoms over the past decade. Are they the result of ‘mass hysteria’? Or are they from attacks with an energy weapon and, if so, who is responsible? And has there been a cover-up",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Candidate named Hitler Mussolini elected mayor in Peru",
+      "link": "https://www.theguardian.com/world/2026/oct/10/peru-election-hitler-mussolini-simeon-flores-mayor",
+      "summary": "p Leftwing Hitler Mussolini Simeon Flores beats far-right candidate in election in remote district of Andes /p p A businessman called Hitler Mussolini Simeon Flores has been elected the mayor of a remote district in the Peruvian Andes, acco",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
       "date": "2026-10-10"
     },
     {
@@ -2630,6 +2738,15 @@
       "date": "2026-10-10"
     },
     {
+      "title": "Arsenal learned lessons from Brighton collapse Arteta",
+      "link": "https://www.vanguardngr.com/2026/10/arsenal-learned-lessons-from-brighton-collapse-arteta/",
+      "summary": "Mikel Arteta said Arsenal had learned lessons from their \"extremely average\" performance at Brighton before the international break as they returned to winning ways against Leeds on Saturday. The post Arsenal learned lessons from Brighton c",
+      "section": "Sports",
+      "region": "nigeria",
+      "source": "Vanguard",
+      "date": "2026-10-10"
+    },
+    {
       "title": "OPay makes $90.9 million profit in six months as it files for a US IPO",
       "link": "https://technext24.com/news/opay-makes-90-9-million-profit-in-6-months/",
       "summary": "OPay, one of Nigeria’s leading fintechs, has revealed strong financial performance as it moves closer to potentially listing",
@@ -3377,15 +3494,6 @@
       "date": "2026-10-10"
     },
     {
-      "title": "Arsenal learned lessons from Brighton collapse Arteta",
-      "link": "https://www.vanguardngr.com/2026/10/arsenal-learned-lessons-from-brighton-collapse-arteta/",
-      "summary": "Mikel Arteta said Arsenal had learned lessons from their \"extremely average\" performance at Brighton before the international break as they returned to winning ways against Leeds on Saturday. The post Arsenal learned lessons from Brighton c",
-      "section": "Top Stories",
-      "region": "nigeria",
-      "source": "Vanguard",
-      "date": "2026-10-10"
-    },
-    {
       "title": "EFCC recovers $105,000 for US-based businesswoman",
       "link": "https://www.vanguardngr.com/2026/10/efcc-recovers-105000-for-us-based-businesswoman/",
       "summary": "The Economic and Financial Crimes Commission (EFCC) has recovered $104,950 for a US-based businesswoman, Mrs Adeshola Oshilaja, over a disputed deal to procure 10 dump trucks from China. The post EFCC recovers $105,000 for US-based business",
@@ -3551,6 +3659,15 @@
       "title": "Police foil plot to kidnap Abuja prophetess, arrest 4 suspects",
       "link": "https://www.vanguardngr.com/2026/10/police-foil-plot-to-kidnap-abuja-prophetess-arrest-4-suspects/",
       "summary": "The Intelligence Response Team (IRT) of the Nigeria Police Force has foiled an alleged plot to kidnap a prophetess and assistant Pastor in the Federal Capital Territory (FCT), Abuja, and arrested four suspects with a locally fabricated fire",
+      "section": "Top Stories",
+      "region": "nigeria",
+      "source": "Vanguard",
+      "date": "2026-10-10"
+    },
+    {
+      "title": "Carrick demands more streetwise Man Utd after Spurs setback",
+      "link": "https://www.vanguardngr.com/2026/10/carrick-demands-more-streetwise-man-utd-after-spurs-setback/",
+      "summary": "United have taken just six points from their opening six Premier League games, their lowest haul at this stage of a league campaign for 30 years. The post Carrick demands more streetwise Man Utd after Spurs setback appeared first on Vanguar",
       "section": "Top Stories",
       "region": "nigeria",
       "source": "Vanguard",
@@ -3780,15 +3897,6 @@
       "region": "nigeria",
       "source": "Punch",
       "date": "2026-10-10"
-    },
-    {
-      "title": "Carrick stays cool, but should he be worried about Man Utd's form?",
-      "link": "https://www.bbc.co.uk/sport/football/videos/c6x29vg0p7kko?at_medium=RSS at_campaign=rss",
-      "summary": "After three weeks off because of the international break, BBC Sport looks back at Manchester United's indifferent start to the new Premier League season, which saw Michael Carrick's side win just one of their opening five matches.",
-      "section": "Sports",
-      "region": "world",
-      "source": "BBC Sport",
-      "date": "2026-10-09"
     },
     {
       "title": "Irving leads Buccaneers to surprise win over Cowboys",
@@ -4823,6 +4931,87 @@
       "section": "Top Stories",
       "region": "world",
       "source": "NYT World",
+      "date": "2026-10-09"
+    },
+    {
+      "title": "New spate of stabbings, overdoses and fires at Australian immigration detention centres run by ICE-linked US prison firm",
+      "link": "https://www.theguardian.com/australia-news/2026/oct/09/australia-immigration-detention-centres-overdoses-fires-prison-ice-ntwnfb",
+      "summary": "p strong Exclusive: /strong Federal government under scrutiny as documents reveal serious security lapses at Melbourne and Villawood immigration detention centres /p ul li p Get our a href=\"https://www.theguardian.com/email-newsletters?CMP=",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-09"
+    },
+    {
+      "title": "Women with PMOS should get subsidised weight-loss drugs, Australian advocates say",
+      "link": "https://www.theguardian.com/australia-news/2026/oct/10/women-with-pmos-should-get-subsidised-weight-loss-drugs-advocates-say",
+      "summary": "p With GLP-1s to treat the condition not specifically approved by the TGA, patients are being prescribed them off-label /p ul li p Get our a href=\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\" breaking news email /a , a href=\"",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-09"
+    },
+    {
+      "title": "Sydney trader sacked for working from Singapore without permission wins unfair dismissal case",
+      "link": "https://www.theguardian.com/australia-news/2026/oct/09/sydney-currency-trader-sacked-for-working-from-singapore-without-permission-wins-unfair-dismissal-case",
+      "summary": "p Employee had also been in Bali when he told his manager he was working from home, Fair Work Commission hears /p ul li p Get our a href=\"https://www.theguardian.com/email-newsletters?CMP=cvau_sfl\" breaking news email /a , a href=\"https://a",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-09"
+    },
+    {
+      "title": "Cop31 host urges wealthy countries to spend ‘much more’ on climate than defence",
+      "link": "https://www.theguardian.com/environment/2026/oct/09/cop31-host-wealthy-countries-climate-crisis-spending-defence-nato",
+      "summary": "p ‘The climate issue is the security issue,’ says Turkish minister at Pacific pre-Cop summit in Fiji /p p Wealthy countries should spend far more on dealing with the climate crisis than the 5% of GDP promised by Nato members for defence bec",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-09"
+    },
+    {
+      "title": "How a plant selfie in Colombian jungle led to ‘jaw dropping’ giant waterlily find",
+      "link": "https://www.theguardian.com/environment/2026/oct/09/plant-selfie-jaw-dropping-giant-waterlily-discovery-colombia",
+      "summary": "p Species with leaves large enough to be seen from space is already critically endangered – and plans are afoot to protect it /p p A chance social media encounter has led to the race-against-time discovery of a new species of giant waterlil",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-09"
+    },
+    {
+      "title": "Egyptian journalists plan weekend protest over detention of six colleagues",
+      "link": "https://www.theguardian.com/global-development/2026/oct/09/egypt-six-journalists-matsadaash-protest-over-detentions",
+      "summary": "p Matsadaash staff allege torture and forced confessions after being held on charges of working for Muslim Brotherhood /p p Egyptian journalists are planning a new protest in Cairo this weekend after a href=\"https://www.theguardian.com/worl",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-09"
+    },
+    {
+      "title": "Isaias strengthens to become first Atlantic hurricane of 2026 season",
+      "link": "https://www.theguardian.com/environment/2026/oct/09/isaias-strengthens-first-atlantic-hurricane-2026",
+      "summary": "p Storm expected to make landfall on US’s northern Gulf coast with risk of flash floods and isolated river flooding /p p Isaias has become the first Atlantic hurricane of the 2026 season, with wind speeds of 80mph and a minimum pressure of ",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-09"
+    },
+    {
+      "title": "ICJ judge Navi Pillay wins Nobel peace prize for promoting international law",
+      "link": "https://www.theguardian.com/world/2026/oct/09/navanethem-navi-pillay-wins-nobel-peace-prize",
+      "summary": "p Committee recognises work of South African who chaired UN commission that concluded Israel was guilty of genocide in Gaza /p p /p p The Nobel peace prize has been awarded to Navi Pillay, the South African former UN human rights chief who ",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-09"
+    },
+    {
+      "title": "Controversial vaccine trial touted by RFK Jr gets go-ahead in Guinea-Bissau",
+      "link": "https://www.theguardian.com/society/2026/oct/09/vaccine-trial-guinea-bissau-rfk-jr",
+      "summary": "p Recommended dose of hepatitis B vaccine will be withheld from thousands of newborns by Danish researchers /p p A controversial research trial that will withhold hepatitis B vaccines from some African newborns was given approval to move fo",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
       "date": "2026-10-09"
     },
     {
@@ -6068,6 +6257,42 @@
       "date": "2026-10-08"
     },
     {
+      "title": "Indonesia accused of ‘gross negligence’ in wildfires lawsuit as haze tests region",
+      "link": "https://www.theguardian.com/world/2026/oct/08/indonesia-wildfires-gross-negligence-lawsuit-haze-region",
+      "summary": "p NGOs in Indonesian Borneo file class action lawsuit calling for government to better manage annual fires and /p p The Indonesian government has been accused of “gross negligence” in a class action lawsuit over its handling of wildfires th",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-08"
+    },
+    {
+      "title": "Japan beer giants raided over suspicions they colluded to set the price of beverages",
+      "link": "https://www.theguardian.com/world/2026/oct/08/japan-beer-giants-raided-over-suspicions-they-colluded-to-set-the-price-of-beverages",
+      "summary": "p Investigators probe Asahi, Kirin, Suntory and Sapporo breweries – which together control more than 90% of Japan’s beer market /p p Japanese authorities have raided the country’s four biggest breweries over suspicions they colluded to set ",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-08"
+    },
+    {
+      "title": "South Korea threatens legal action if fuel shipments to Russia found to have broken law",
+      "link": "https://www.theguardian.com/world/2026/oct/08/south-korea-fuel-shipments-to-russia-domestic-law",
+      "summary": "p Responding to a Guardian report that revealed thousands of tonnes of fuel was transported to Russia, Seoul said it was investigating the cases /p p South Korea will take legal action if it finds that shipments of fuel from its ports to Ru",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-08"
+    },
+    {
+      "title": "Scientists discover 180,000 giant tortoises on one Seychelles island",
+      "link": "https://www.theguardian.com/environment/2026/oct/08/researchers-find-180000-giant-tortoises-living-on-island-in-seychelles",
+      "summary": "p Free-roaming Aldabra population far exceeds human population of Seychelles after decades-long recovery programme /p p A survey of the world’s largest free-roaming giant tortoise population has discovered that the once endangered species i",
+      "section": "Top Stories",
+      "region": "world",
+      "source": "The Guardian",
+      "date": "2026-10-08"
+    },
+    {
       "title": "IMC 2026: Ericsson to export made-in-India antennas to Europe and other global markets",
       "link": "https://indianexpress.com/article/technology/tech-news-technology/imc-2026-ericsson-made-in-india-antennas-10911650/",
       "summary": "",
@@ -6270,15 +6495,6 @@
       "link": "https://www.vanguardngr.com/2026/10/i-have-the-looks-wit-drama-to-win-bbn-miracle-echeji/",
       "summary": "Nollywood actress and broadcaster Miracle Echeji, popularly known as Mimi of Lagos, has expressed confidence that she could have won the just-concluded Big Brother Naija (BBN) reality show had she participated in the competition. Echeji att",
       "section": "Culture",
-      "region": "nigeria",
-      "source": "Vanguard",
-      "date": "2026-10-08"
-    },
-    {
-      "title": "Haaland wants Man City fans to stay positive and stick together after guilty verdict",
-      "link": "https://www.vanguardngr.com/2026/10/haaland-wants-man-city-fans-to-stay-positive-and-stick-together-after-guilty-verdict/",
-      "summary": "Manchester City forward Erling Haaland has urged the club’s fans to remain positive and “stick together” after the Premier League champions were found guilty of all charges relating to serious financial breaches. The post Haaland wants Man ",
-      "section": "Sports",
       "region": "nigeria",
       "source": "Vanguard",
       "date": "2026-10-08"
@@ -8480,15 +8696,6 @@
       "date": ""
     },
     {
-      "title": "Anti-CEC protest LIVE updates: CJP calls for another protest at Jantar Mantar on Sunday; UNHRC demands immediate release of demonstrators | LIVE",
-      "link": "https://www.thehindu.com/news/cities/Delhi/cjp-protests-jantar-mantar-new-delhi-election-commissioner-gyanesh-kumar-resignation-sir-cec-row-october-10-2026-live-news/article71566021.ece",
-      "summary": "Supreme Court to hold Sunday special hearing on contempt petition against shutdown of transit corridors, metro stations across Delhi; Delhi Metro reopens 45 stations after 25-hour closure",
-      "section": "Top Stories",
-      "region": "india",
-      "source": "The Hindu",
-      "date": ""
-    },
-    {
       "title": "PM Modi to launch Chennai Metro Rail Phase 2, to share ride with Tamil Nadu CM Vijay",
       "link": "https://www.thehindu.com/news/national/tamil-nadu/pm-modi-to-launch-chennai-metro-rail-phase-2-to-share-ride-with-tamil-nadu-cm-vijay/article71568212.ece",
       "summary": "In the initial period, 15 trains will be run from Poonamallee to Vadapalani, and commuters can access a train every 10 minutes during the peak hours",
@@ -8546,6 +8753,15 @@
       "title": "Multiple ‘Jantar Mantars’ spring up as Delhi shuts",
       "link": "https://www.thehindu.com/news/cities/Delhi/multiple-jantar-mantars-spring-up-as-delhi-shuts/article71569272.ece",
       "summary": "Crackdown by police and paramilitary forces prompts flash protests near Safdarjung flyover, Dilli Haat, Raj Ghat; demonstrators sing protest songs, hold public lectures at makeshift detention centres",
+      "section": "Top Stories",
+      "region": "india",
+      "source": "The Hindu",
+      "date": ""
+    },
+    {
+      "title": "Anti-CEC protest LIVE updates: CJP calls for another protest at Jantar Mantar on Sunday; UNHRC demands immediate release of demonstrators | LIVE",
+      "link": "https://www.thehindu.com/news/cities/Delhi/cjp-protests-jantar-mantar-new-delhi-election-commissioner-gyanesh-kumar-resignation-sir-cec-row-october-10-2026-live-news/article71566021.ece",
+      "summary": "Supreme Court to hold Sunday special hearing on contempt petition against shutdown of transit corridors, metro stations across Delhi; Delhi Metro reopens 45 stations after 25-hour closure",
       "section": "Top Stories",
       "region": "india",
       "source": "The Hindu",

@@ -8,7 +8,7 @@ import {
   formatDate,
   getFeatured,
   newspaper,
-  type Article,
+  type StorySummary,
 } from "@/lib/articles";
 
 /** Root wrapper that paints every newspaper route with the shared paper theme. */
@@ -61,7 +61,7 @@ export function SiteFooter({ note }: { note?: React.ReactNode }) {
   );
 }
 
-export function Thumb({ article, tall = false }: { article: Article; tall?: boolean }) {
+export function Thumb({ article, tall = false }: { article: StorySummary; tall?: boolean }) {
   return (
     <div className={`${styles.thumb} ${tall ? styles.thumbTall : ""}`}>
       {/* Guaranteed procedural fallback — renders instantly with no network. */}
@@ -87,7 +87,7 @@ function thumbOverlay(section: string): string {
   return `<span class="${styles.thumbLabel}">${section}</span>`;
 }
 
-export function Byline({ article }: { article: Article }) {
+export function Byline({ article }: { article: StorySummary }) {
   return (
     <p className={styles.byline}>
       By{" "}
@@ -100,7 +100,7 @@ export function Byline({ article }: { article: Article }) {
   );
 }
 
-export function StoryCard({ article }: { article: Article }) {
+export function StoryCard({ article }: { article: StorySummary }) {
   return (
     <article className={styles.card}>
       <Thumb article={article} />

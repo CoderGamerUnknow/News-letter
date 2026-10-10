@@ -23,6 +23,28 @@ export type Article = {
   body: string[];
 };
 
+/**
+ * Everything a story card needs, without the article body. Client components
+ * receive these so a grid never ships dozens of full articles (bodies and all)
+ * in the page payload. `Article` is assignable to this, so server-rendered
+ * cards can still take the full object.
+ */
+export type StorySummary = Omit<Article, "body">;
+
+/** Strip the body from an article for card-only consumers. */
+export function summarize(article: Article): StorySummary {
+  return {
+    slug: article.slug,
+    headline: article.headline,
+    dek: article.dek,
+    section: article.section,
+    author: article.author,
+    date: article.date,
+    readingTime: article.readingTime,
+    tone: article.tone,
+  };
+}
+
 export const newspaper = {
   name: "The Daily Ledger",
   tagline: "Independent journalism since 1892",
