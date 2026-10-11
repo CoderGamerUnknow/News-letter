@@ -1,7 +1,7 @@
 # Netlify build configuration for the Next.js app.
 [build]
   command = "npm run build"
-  publish = ""
+  publish = ".netlify/output"
   publishOrigin = "config"
 
 [build.environment]
