@@ -1,10 +1,11 @@
 # Netlify build configuration for the Next.js app.
 #
-# Let Netlify auto-detect and run the Next.js adapter. We pin the build
-# command and Node version so a fresh clone builds the same way CI and
-# local dev do. Next.js 16 requires Node >= 20.9.
+# Explicitly use the Next.js adapter; it decides what to deploy.
 [build]
   command = "npm run build"
 
 [build.environment]
   NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
