@@ -39,9 +39,9 @@ on the client without a rebuild.
 - **Live updates** — the ticker and live wires poll `/api/live` every few minutes,
   so headlines refresh without a rebuild. The route caches the wire for three
   minutes and returns the newest headlines per region.
-- **Instant routes** — article, section and author pages render a static shell and
-  stream only the slug-dependent content; an unknown slug resolves to the app's
-  404 page.
+- **Instant routes** — article, section and author pages are fully prerendered;
+  `dynamicParams = false` turns unknown slugs away with a true 404 from the
+  first byte (no soft-404).
 - **Search** — `/search` filters the whole edition in the browser.
 - **Related stories** — scored by keyword overlap, not just section.
 - **Real photos** — each card layers a seeded photo from `picsum.photos` over
@@ -54,7 +54,7 @@ on the client without a rebuild.
 
 | Layer | Choice |
 | --- | --- |
-| Framework | Next.js 16.4 (App Router, Turbopack, Cache Components) |
+| Framework | Next.js 16.4 (App Router, Turbopack) |
 | UI | React 19.3 |
 | Language | TypeScript 5 |
 | Styling | CSS Modules + design-token variables |
@@ -138,9 +138,11 @@ production build locally.
 
 ### Netlify
 
-Netlify's OpenNext adapter runs the Next.js app with zero configuration; the
-repo's `netlify.toml` only pins the build command and Node version. Don't add a
-`publish` directory — the adapter decides what to deploy.
+Netlify's OpenNext adapter (`@netlify/plugin-nextjs`) runs the Next.js app; the
+repo's `netlify.toml` pins the build command, Node version and the adapter
+itself, so the deploy works even if the site was created without the framework
+preset. Don't add a `publish` directory — publishing the raw `.next` folder
+serves build internals and 404s every path; the adapter decides what to deploy.
 
 Netlify's adapter cannot package Next 16's Node-runtime `proxy.ts` (the renamed
 middleware) — the deploy fails while bundling it as an Edge Function. This

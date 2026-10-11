@@ -23,6 +23,11 @@ export function generateStaticParams() {
   return getAllAuthors().map((author) => ({ slug: authorSlug(author) }));
 }
 
+// Only the slugs above are ever served: anything else is a real 404 from the
+// first byte, instead of an on-demand render that streams a 200 shell before
+// `notFound()` resolves (the old Cache Components soft-404).
+export const dynamicParams = false;
+
 export async function generateMetadata(
   props: PageProps<"/author/[slug]">,
 ): Promise<Metadata> {

@@ -1,11 +1,22 @@
 # Netlify build configuration for the Next.js app.
 #
-# Netlify's OpenNext adapter handles the Next.js runtime automatically, so we
-# deliberately set no `publish` directory here — the adapter decides what to
-# deploy. We only pin the build command and the Node version so a fresh clone
-# builds the same way CI and local dev do. Next.js 16 requires Node >= 20.9.
+# We deliberately set no `publish` directory: the OpenNext adapter (below)
+# decides what to deploy. Publishing a raw directory such as `.next` — which
+# a site's UI settings can do — serves build internals instead of the app and
+# 404s every path, so declaring the adapter here guarantees it runs and
+# overrides any stale UI publish setting.
+# We only pin the build command and the Node version so a fresh clone builds
+# the same way CI and local dev do. Next.js 16 requires Node >= 20.9.
 [build]
   command = "npm run build"
 
 [build.environment]
   NODE_VERSION = "22"
+
+# The Next.js Runtime (OpenNext adapter). Netlify usually applies this
+# automatically to Next.js sites, but if the site was created without the
+# framework preset it never runs — and without it nothing in `.next` is
+# turned into functions or routes. Declaring it here makes the deploy
+# self-contained in the repo.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
