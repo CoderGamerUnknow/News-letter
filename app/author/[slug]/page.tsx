@@ -29,8 +29,7 @@ export async function generateMetadata(
   const { slug } = await props.params;
   const author = authorFromSlug(slug);
 
-  // Metadata resolves before the shell streams, so an unknown slug is a real
-  // 404 here rather than a streamed "not found" under a 200 shell.
+  // An unknown slug resolves to the app's not-found page, matching the page body.
   if (!author) notFound();
 
   return {
@@ -41,7 +40,8 @@ export async function generateMetadata(
 
 /**
  * The shell renders instantly; only the contributor's stories wait on the slug,
- * inside Suspense, so navigation is never blocked by URL data.
+ * inside Suspense, so navigation is never blocked by URL data. An unknown slug
+ * resolves to the app's not-found page.
  */
 export default function AuthorPage(props: PageProps<"/author/[slug]">) {
   return (

@@ -35,8 +35,7 @@ export async function generateMetadata(
   const { slug } = await props.params;
   const article = getArticleBySlug(slug);
 
-  // Metadata resolves before the shell streams, so an unknown slug is a real
-  // 404 here rather than a streamed "not found" under a 200 shell.
+  // An unknown slug resolves to the app's not-found page, matching the page body.
   if (!article) {
     notFound();
   }
@@ -64,9 +63,10 @@ export async function generateMetadata(
 
 /**
  * The shell — masthead, nav and page frame — is static and renders instantly.
- * Only the story itself waits on the slug, inside Suspense, so the route
- * streams an instant shell for navigation instead of blocking on URL data.
- * The active section is highlighted by the client nav from the pathname.
+ * Only the story waits on the slug, inside Suspense, so the route streams an
+ * instant shell for navigation instead of blocking on URL data; an unknown slug
+ * resolves to the app's not-found page. The active section is highlighted by the
+ * client nav from the pathname.
  */
 export default function ArticlePage(props: PageProps<"/article/[slug]">) {
   return (

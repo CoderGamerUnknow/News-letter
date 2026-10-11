@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import blocklist from "../headline-blocklist.json";
 import { feeds, newsRegions, sectionToTopic, topicLabel, topicOrder } from "../feeds";
 import { groupByTopic, type LiveStory } from "../live-news";
-import { articleSlugs, authorSlugs, sectionSlugs } from "../slug-index";
+import { articles, authorSlug, getAllAuthors, sectionSlug, sections } from "../articles";
 
 const REGION_IDS = new Set(newsRegions.map((region) => region.id));
 
@@ -114,8 +114,12 @@ describe("topic grouping", () => {
   });
 });
 
-describe("slug index", () => {
-  it("contains slugs for every dynamic route", () => {
+describe("slug universe", () => {
+  const articleSlugs = new Set(articles.map((article) => article.slug));
+  const sectionSlugs = new Set(sections.map(sectionSlug));
+  const authorSlugs = new Set(getAllAuthors().map(authorSlug));
+
+  it("derives a slug for every dynamic route", () => {
     expect(articleSlugs.size).toBeGreaterThan(200);
     expect(sectionSlugs.size).toBe(6);
     expect(authorSlugs.size).toBeGreaterThan(10);

@@ -40,8 +40,8 @@ on the client without a rebuild.
   so headlines refresh without a rebuild. The route caches the wire for three
   minutes and returns the newest headlines per region.
 - **Instant routes** — article, section and author pages render a static shell and
-  stream only the slug-dependent content; `proxy.ts` validates slugs up front so
-  an unknown URL is a real 404 on the first request.
+  stream only the slug-dependent content; an unknown slug resolves to the app's
+  404 page.
 - **Search** — `/search` filters the whole edition in the browser.
 - **Related stories** — scored by keyword overlap, not just section.
 - **Real photos** — each card layers a seeded photo from `picsum.photos` over
@@ -93,7 +93,6 @@ it keeps the previous snapshot and never fails the build.
 | `/search` | `app/search/page.tsx` | Client-side search across the edition |
 | `/api/live` | `app/api/live/route.ts` | On-demand headlines for client polling |
 | `not-found` | `app/not-found.tsx` | Unknown slugs and unmatched URLs |
-| — | `proxy.ts` | Rejects unknown dynamic slugs with an immediate 404 |
 | `/sitemap.xml`, `/robots.txt`, `/feed.xml` | `app/sitemap.ts`, `app/robots.ts`, `app/feed.xml/route.ts` | Generated from the same dataset |
 
 ## Project structure
@@ -116,9 +115,9 @@ it keeps the previous snapshot and never fails the build.
 │   ├── rss.ts              #   Dependency-free runtime RSS parser
 │   ├── live-news.ts        #   Typed loader over the build-time snapshot
 │   └── search.ts           #   Browser-side edition search
-├── scripts/
-│   └── fetch-news.mjs      #   Build-time wire fetch
-└── proxy.ts                #   Slug validation / 404 gate
+├── netlify.toml            #   Netlify build settings
+└── scripts/
+    └── fetch-news.mjs      #   Build-time wire fetch
 ```
 
 ## Configuration
@@ -136,6 +135,17 @@ is dynamic and needs a Node runtime (it is not part of a pure static export).
 
 Any Node host works — Vercel, Netlify, or a container. `npm start` serves the
 production build locally.
+
+### Netlify
+
+Netlify's OpenNext adapter runs the Next.js app with zero configuration; the
+repo's `netlify.toml` only pins the build command and Node version. Don't add a
+`publish` directory — the adapter decides what to deploy.
+
+Netlify's adapter cannot package Next 16's Node-runtime `proxy.ts` (the renamed
+middleware) — the deploy fails while bundling it as an Edge Function. This
+project therefore keeps slug validation in the page and ships no middleware, so
+an unknown dynamic slug still lands on the 404 page.
 
 ## Contributing
 
