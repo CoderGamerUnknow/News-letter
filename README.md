@@ -6,11 +6,14 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/CoderGamerUnknow/News-letter/actions"><img src="https://img.shields.io/badge/build-passing-brightgreen" alt="Build passing"></a>
+  <a href="https://github.com/CoderGamerUnknow/News-letter/actions/workflows/ci.yml"><img src="https://github.com/CoderGamerUnknow/News-letter/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/CoderGamerUnknow/News-letter"><img src="https://img.shields.io/badge/next.js-16.4-000000?logo=next.js" alt="Next.js 16.4"></a>
   <a href="https://react.dev"><img src="https://img.shields.io/badge/react-19.3-61dafb?logo=react" alt="React 19.3"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
-  <a href="https://github.com/CoderGamerUnknow/News-letter"><img src="https://img.shields.io/badge/zone-UTC%2B00--lightgrey" alt="Status"></a>
+</p>
+
+<p align="center">
+  <img src="public/social-cover.png" alt="The Daily Ledger — masthead and front-page columns" width="100%">
 </p>
 
 ---
