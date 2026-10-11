@@ -1,6 +1,4 @@
 # Netlify build configuration for the Next.js app.
-#
-# Explicitly use the Next.js adapter; it decides what to deploy.
 [build]
   command = "npm run build"
   publish = ""
@@ -8,6 +6,3 @@
 
 [build.environment]
   NODE_VERSION = "22"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
