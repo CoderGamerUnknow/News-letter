@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import blocklist from "../headline-blocklist.json";
 import { feeds, newsRegions, sectionToTopic, topicLabel, topicOrder } from "../feeds";
 import { groupByTopic, type LiveStory } from "../live-news";
 import { articleSlugs, authorSlugs, sectionSlugs } from "../slug-index";
@@ -59,6 +60,17 @@ describe("region metadata", () => {
   });
 });
 
+describe("headline blocklist", () => {
+  it("is a non-empty list of unique, lowercase terms", () => {
+    expect(blocklist.length).toBeGreaterThan(0);
+    expect(new Set(blocklist).size).toBe(blocklist.length);
+    for (const term of blocklist) {
+      expect(term).toBe(term.toLowerCase().trim());
+      expect(term.length).toBeGreaterThan(0);
+    }
+  });
+});
+
 describe("topic grouping", () => {
   it("orders topics canonically and drops empty ones", () => {
     const stories = [
@@ -69,12 +81,10 @@ describe("topic grouping", () => {
     const groups = groupByTopic(stories);
     expect(groups.map((group) => group.section)).toEqual([
       "Top Stories",
-      "Business",
       "Sports",
     ]);
     expect(groups.map((group) => group.label)).toEqual([
       "Top Stories",
-      "Business",
       "Sports",
     ]);
   });
@@ -94,9 +104,12 @@ describe("topic grouping", () => {
     expect(groupByTopic([])).toEqual([]);
   });
 
-  it("maps the paper's World section onto Top Stories", () => {
+  it("maps the paper's sections onto wire topics, falling back to Top Stories", () => {
     expect(sectionToTopic("World")).toBe("Top Stories");
+    expect(sectionToTopic("Business")).toBe("Top Stories");
+    expect(sectionToTopic("Technology")).toBe("Top Stories");
     expect(sectionToTopic("Politics")).toBe("Politics");
+    expect(sectionToTopic("Culture")).toBe("Culture");
     expect(topicLabel("Top Stories")).toBe("Top Stories");
   });
 });

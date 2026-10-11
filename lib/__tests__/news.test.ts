@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   articles,
+  authorFromSlug,
   curated,
   formatDate,
   getArticleBySlug,
@@ -10,6 +11,7 @@ import {
   getLatestExcluding,
   getRelatedStories,
   getSecondary,
+  safeDecodeSlug,
   sectionFromSlug,
   sectionSlug,
   sections,
@@ -102,6 +104,27 @@ describe("helpers", () => {
 
   it("sectionFromSlug returns undefined for unknown input", () => {
     expect(sectionFromSlug("nonsense")).toBeUndefined();
+  });
+
+  it("survives malformed percent-encoding instead of throwing", () => {
+    // decodeURIComponent raises URIError on these; a request like
+    // /article/100% must be a 404, never a 500.
+    const malformed = ["100%", "%zz", "%E0%A4%A", "50%%done", "%"];
+
+    for (const slug of malformed) {
+      expect(() => sectionFromSlug(slug)).not.toThrow();
+      expect(sectionFromSlug(slug)).toBeUndefined();
+      expect(() => authorFromSlug(slug)).not.toThrow();
+      expect(authorFromSlug(slug)).toBeUndefined();
+      expect(safeDecodeSlug(slug)).toBe(slug);
+    }
+  });
+
+  it("safeDecodeSlug still decodes well-formed segments", () => {
+    expect(safeDecodeSlug("mara-ellison")).toBe("mara-ellison");
+    expect(safeDecodeSlug("caf%C3%A9")).toBe("caf\u00e9");
+    // A valid slug keeps resolving through the wrappers.
+    expect(sectionFromSlug(sectionSlug(sections[0]))).toBe(sections[0]);
   });
 
   it("getArticleBySlug finds and misses correctly", () => {

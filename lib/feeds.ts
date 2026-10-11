@@ -26,10 +26,8 @@ export const feeds = data.feeds as Feed[];
 export const topicOrder = [
   "Top Stories",
   "Politics",
-  "Business",
-  "Technology",
-  "Sports",
   "Culture",
+  "Sports",
 ];
 
 /** How many items to keep from each feed, so one prolific source can't swamp the wire. */
@@ -38,10 +36,15 @@ export const feedItemLimit = 25;
 /**
  * Map a newspaper section onto its live sub-topic. The paper calls its general
  * international section "World", while the live wire calls the same bucket
- * "Top Stories", so section pages find the right headlines.
+ * "Top Stories", so section pages find the right headlines. Business and
+ * Technology have no dedicated wire sub-topic, so they read the general
+ * "Top Stories" bucket instead of rendering an empty live block.
  */
 export function sectionToTopic(section: string): string {
-  return section === "World" ? "Top Stories" : section;
+  if (section === "World" || section === "Business" || section === "Technology") {
+    return "Top Stories";
+  }
+  return section;
 }
 
 /**

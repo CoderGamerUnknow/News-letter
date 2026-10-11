@@ -7,6 +7,7 @@ import {
   getLatestExcluding,
   getSecondary,
   newspaper,
+  summarize,
   type Article,
 } from "@/lib/articles";
 import { getBreaking, seedLiveStories } from "@/lib/live-news";
@@ -46,13 +47,13 @@ export default function Home() {
       <main className={styles.main} id="main-content">
         <section className={styles.front} aria-label="Front page stories">
           <article className={styles.lead}>
-            <Thumb article={featured} tall />
+            <Thumb article={summarize(featured)} tall />
             <p className={styles.kicker}>{featured.section}</p>
             <h2 className={styles.leadHeadline}>
               <Link href={`/article/${featured.slug}`}>{featured.headline}</Link>
             </h2>
             <p className={styles.leadDek}>{featured.dek}</p>
-            <Byline article={featured} />
+            <Byline article={summarize(featured)} />
           </article>
 
           <div className={styles.secondary}>
@@ -67,7 +68,7 @@ export default function Home() {
           <SectionHeading>Latest News</SectionHeading>
           <StoryGrid>
             {latest.map((article) => (
-              <StoryCard key={article.slug} article={article} />
+              <StoryCard key={article.slug} article={summarize(article)} />
             ))}
           </StoryGrid>
         </section>
@@ -88,7 +89,7 @@ function SecondaryItem({ article }: { article: Article }) {
         <Link href={`/article/${article.slug}`}>{article.headline}</Link>
       </h3>
       <p className={styles.secondaryDek}>{article.dek}</p>
-      <Byline article={article} />
+      <Byline article={summarize(article)} />
     </article>
   );
 }

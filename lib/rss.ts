@@ -4,6 +4,7 @@
  * dependency-free with a tolerant regex parser that handles CDATA and HTML.
  */
 
+import blocklist from "./headline-blocklist.json";
 import { feedItemLimit, feeds, type Feed, type RegionId } from "./feeds";
 
 export type RssStory = {
@@ -44,6 +45,18 @@ function clean(text: string): string {
     .trim();
 }
 
+/**
+ * Headline blocklist shared with the build-time fetcher via
+ * `lib/headline-blocklist.json`, so a story filtered at build time is also
+ * filtered when the client polls /api/live (and vice versa).
+ */
+const BAD_TERMS = blocklist.map((term) => term.toLowerCase());
+
+function isCleanStory(title: string, summary: string): boolean {
+  const text = `${title} ${summary}`.toLowerCase();
+  return !BAD_TERMS.some((term) => text.includes(term));
+}
+
 function parseRss(xml: string, feed: Feed): RssStory[] {
   const items = xml.match(/<item[^>]*>[\s\S]*?<\/item>/gi) ?? [];
   return items
@@ -62,7 +75,7 @@ function parseRss(xml: string, feed: Feed): RssStory[] {
         date,
       };
     })
-    .filter((story) => story.title && story.link)
+    .filter((story) => story.title && story.link && isCleanStory(story.title, story.summary))
     .slice(0, feedItemLimit);
 }
 

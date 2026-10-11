@@ -10,6 +10,7 @@ import {
   getRelatedStories,
   newspaper,
   sectionSlug,
+  summarize,
 } from "@/lib/articles";
 import {
   Byline,
@@ -104,10 +105,10 @@ async function ArticleContent({
           </p>
           <h1 className={styles.headline}>{article.headline}</h1>
           <p className={styles.dek}>{article.dek}</p>
-          <Byline article={article} />
+          <Byline article={summarize(article)} />
 
           <div className={styles.leadImage}>
-            <Thumb article={article} tall />
+            <Thumb article={summarize(article)} tall />
           </div>
 
           <div className={styles.body}>
@@ -134,7 +135,7 @@ async function ArticleContent({
               <SectionHeading>More in {article.section}</SectionHeading>
               <StoryGrid>
                 {sameSection.map((story) => (
-                  <StoryCard key={story.slug} article={story} />
+                  <StoryCard key={story.slug} article={summarize(story)} />
                 ))}
               </StoryGrid>
             </section>
@@ -148,7 +149,7 @@ async function ArticleContent({
               <SectionHeading>Elsewhere in Today&apos;s Edition</SectionHeading>
               <StoryGrid>
                 {elsewhere.map((story) => (
-                  <StoryCard key={story.slug} article={story} />
+                  <StoryCard key={story.slug} article={summarize(story)} />
                 ))}
               </StoryGrid>
             </section>

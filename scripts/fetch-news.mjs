@@ -19,6 +19,7 @@ import { dirname, join } from "node:path";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const OUT_FILE = join(ROOT, "lib", "live-news.json");
 const FEEDS_FILE = join(ROOT, "lib", "feeds.json");
+const BLOCKLIST_FILE = join(ROOT, "lib", "headline-blocklist.json");
 const TIMEOUT_MS = Number(process.env.FETCH_TIMEOUT_MS ?? 12000);
 
 /** Keep at most this many items per feed, so one prolific source can't swamp the wire. */
@@ -33,6 +34,21 @@ async function loadFeeds() {
   const raw = await readFile(FEEDS_FILE, "utf8");
   const data = JSON.parse(raw);
   return Array.isArray(data.feeds) ? data.feeds : [];
+}
+
+/**
+ * The shared headline blocklist (`lib/headline-blocklist.json`). Kept in
+ * sync with the runtime fetcher in `lib/rss.ts` by reading the same file, so
+ * a story filtered at build time never reappears from /api/live.
+ */
+async function loadBlocklist() {
+  try {
+    const raw = await readFile(BLOCKLIST_FILE, "utf8");
+    const data = JSON.parse(raw);
+    return Array.isArray(data) ? data.map((term) => String(term).toLowerCase()) : [];
+  } catch {
+    return [];
+  }
 }
 
 /** Pull the inner text of the first matching tag inside `xml`. */
@@ -61,8 +77,14 @@ function clean(text) {
     .trim();
 }
 
+/** Drop stories whose headline or summary trips the shared blocklist. */
+function isCleanStory(story, blocklist) {
+  const text = `${story.title} ${story.summary}`.toLowerCase();
+  return !blocklist.some((term) => text.includes(term));
+}
+
 /** Parse an RSS 2.0 document into a flat list of stories. */
-function parseRss(xml, feed) {
+function parseRss(xml, feed, blocklist) {
   const items = xml.match(/<item[^>]*>[\s\S]*?<\/item>/gi) ?? [];
   return items.map((item) => {
     const title = clean(pickTag(item, "title"));
@@ -78,11 +100,11 @@ function parseRss(xml, feed) {
       source: feed.source,
       date: iso,
     };
-  }).filter((story) => story.title && story.link).slice(0, ITEM_LIMIT);
+  }).filter((story) => story.title && story.link && isCleanStory(story, blocklist)).slice(0, ITEM_LIMIT);
 }
 
 /** Fetch one feed with a hard timeout; returns [] on any failure. */
-async function fetchFeed(feed) {
+async function fetchFeed(feed, blocklist) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
   try {
@@ -92,7 +114,7 @@ async function fetchFeed(feed) {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const xml = await res.text();
-    return parseRss(xml, feed);
+    return parseRss(xml, feed, blocklist);
   } catch (err) {
     console.warn(`  ! skip ${feed.source} (${feed.region}/${feed.section}): ${err.message}`);
     return [];
@@ -103,8 +125,9 @@ async function fetchFeed(feed) {
 
 async function main() {
   const FEEDS = await loadFeeds();
+  const blocklist = await loadBlocklist();
   console.log(`Fetching ${FEEDS.length} feeds across all regions...`);
-  const results = await Promise.all(FEEDS.map(fetchFeed));
+  const results = await Promise.all(FEEDS.map((feed) => fetchFeed(feed, blocklist)));
   let stories = results.flat();
 
   // De-dupe by link, keep the newest snapshot ordering by date.

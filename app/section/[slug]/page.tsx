@@ -11,6 +11,7 @@ import {
   sections,
   summarize,
 } from "@/lib/articles";
+import { sectionToTopic } from "@/lib/feeds";
 import {
   Byline,
   Page,
@@ -96,12 +97,12 @@ async function SectionContent({
 
         {lead ? (
           <article className={styles.lead}>
-            <Thumb article={lead} tall />
+            <Thumb article={summarize(lead)} tall />
             <h2 className={styles.leadHeadline}>
               <Link href={`/article/${lead.slug}`}>{lead.headline}</Link>
             </h2>
             <p className={styles.leadDek}>{lead.dek}</p>
-            <Byline article={lead} />
+            <Byline article={summarize(lead)} />
           </article>
         ) : (
           <p className={styles.empty}>
@@ -116,7 +117,14 @@ async function SectionContent({
           </section>
         ) : null}
 
-        <LiveWireClient initial={live} section={section} title={`Live Wire — ${section}`} />
+        {/* The wire names its buckets differently from the paper (e.g. "World"
+            is "Top Stories" on the wire), so the client-side refresh must filter
+            on the mapped topic or it drops every headline after the first poll. */}
+        <LiveWireClient
+          initial={live}
+          section={sectionToTopic(section)}
+          title={`Live Wire — ${section}`}
+        />
       </main>
 
       <SiteFooter note={`Section · ${section}`} />

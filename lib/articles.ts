@@ -548,9 +548,26 @@ export function sectionSlug(section: Section): string {
   return section.toLowerCase();
 }
 
+/**
+ * Decode a URL segment without throwing.
+ *
+ * `decodeURIComponent` raises a `URIError` on malformed percent-encoding
+ * (`/article/100%`, `/article/%zz`), which would surface as a 500 instead of
+ * the 404 an unknown slug deserves. A segment that cannot be decoded simply
+ * cannot match any slug, so returning it unchanged lets the caller report the
+ * miss normally.
+ */
+export function safeDecodeSlug(slug: string): string {
+  try {
+    return decodeURIComponent(slug);
+  } catch {
+    return slug;
+  }
+}
+
 /** Resolve a URL segment back to a section, or undefined when it is not one. */
 export function sectionFromSlug(slug: string): Section | undefined {
-  const normalized = decodeURIComponent(slug).toLowerCase();
+  const normalized = safeDecodeSlug(slug).toLowerCase();
   return sections.find((section) => sectionSlug(section) === normalized);
 }
 
@@ -572,7 +589,7 @@ export function authorSlug(author: string): string {
 
 /** Resolve an author slug back to the author's display name. */
 export function authorFromSlug(slug: string): string | undefined {
-  const normalized = decodeURIComponent(slug).toLowerCase();
+  const normalized = safeDecodeSlug(slug).toLowerCase();
   const found = articles.find((article) => authorSlug(article.author) === normalized);
   return found?.author;
 }

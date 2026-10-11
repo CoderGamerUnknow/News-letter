@@ -8,6 +8,7 @@ import {
   getAllAuthors,
   getArticlesByAuthor,
   newspaper,
+  summarize,
 } from "@/lib/articles";
 import {
   Page,
@@ -83,7 +84,7 @@ async function AuthorContent({
           <section aria-label={`Latest by ${author}`}>
             <SectionHeading>Latest</SectionHeading>
             <div className={styles.lead}>
-              <StoryCard article={lead} />
+              <StoryCard article={summarize(lead)} />
             </div>
           </section>
         ) : (
@@ -95,7 +96,7 @@ async function AuthorContent({
             <SectionHeading>More by {author}</SectionHeading>
             <StoryGrid>
               {rest.map((story) => (
-                <StoryCard key={story.slug} article={story} />
+                <StoryCard key={story.slug} article={summarize(story)} />
               ))}
             </StoryGrid>
           </section>

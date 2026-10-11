@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { safeDecodeSlug } from "@/lib/articles";
 import { articleSlugs, authorSlugs, sectionSlugs } from "@/lib/slug-index";
 
 /**
@@ -28,7 +29,11 @@ export function proxy(request: NextRequest) {
   for (const { prefix, slugs } of LOOKUPS) {
     if (!pathname.startsWith(prefix)) continue;
 
-    const slug = decodeURIComponent(pathname.slice(prefix.length)).replace(/\/$/, "");
+    // Malformed percent-encoding (`/article/100%`, `/article/%zz`) used to throw
+    // a URIError here and surface as a 500. `safeDecodeSlug` returns the segment
+    // unchanged when it cannot be decoded; it then matches no known slug and
+    // falls through to the 404 rewrite like any other unknown path.
+    const slug = safeDecodeSlug(pathname.slice(prefix.length)).replace(/\/$/, "");
     if (slug && !slugs.has(slug)) {
       return NextResponse.rewrite(new URL(NOT_FOUND_PATH, request.url), { status: 404 });
     }
