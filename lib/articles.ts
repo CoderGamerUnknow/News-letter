@@ -1,4 +1,5 @@
 import { generateStories } from "./generate";
+import manualSnapshot from "./manual-news.json";
 
 export type Section =
   | "World"
@@ -497,12 +498,38 @@ const curatedArticles: Article[] = [
 export const WIRE_STORY_COUNT = 240;
 
 /**
+ * Stories filed by hand through the /admin desk. They live in
+ * `lib/manual-news.json` (committed with the code), so they join the edition
+ * on the next build exactly like the curated features. The store is only ever
+ * written by the validated publish API, but the loader still defends against
+ * a hand-edited file with missing fields.
+ */
+export const manualArticles: Article[] = (
+  (manualSnapshot as { stories?: Partial<Article>[] }).stories ?? []
+)
+  .filter(
+    (story): story is Partial<Article> & Article =>
+      Boolean(story?.slug && story?.headline && Array.isArray(story?.body)),
+  )
+  .map((story) => ({
+    ...story,
+    body: story.body.map((paragraph) => paragraph.trim()).filter(Boolean),
+    readingTime: story.readingTime > 0 ? story.readingTime : 1,
+    tone:
+      story.tone && story.tone.length === 2
+        ? story.tone
+        : (["#14100c", "#8c2f21"] as [string, string]),
+  }));
+
+/**
  * The full edition: curated features first (so they anchor the front page and
- * section leads), followed by deterministic wire stories to fill out the news
- * cycle. Every helper below operates on this combined list.
+ * section leads), then hand-filed admin stories, then deterministic wire
+ * stories to fill out the news cycle. Every helper below operates on this
+ * combined list.
  */
 export const articles: Article[] = [
   ...curatedArticles,
+  ...manualArticles,
   ...generateStories(WIRE_STORY_COUNT),
 ];
 

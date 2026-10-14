@@ -11,6 +11,7 @@ import {
   getLatestExcluding,
   getRelatedStories,
   getSecondary,
+  manualArticles,
   safeDecodeSlug,
   sectionFromSlug,
   sectionSlug,
@@ -26,8 +27,19 @@ const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
 describe("dataset integrity", () => {
   it("contains the curated features plus the generated wire stories", () => {
-    expect(articles.length).toBe(curated.length + WIRE_STORY_COUNT);
+    expect(articles.length).toBe(curated.length + manualArticles.length + WIRE_STORY_COUNT);
     expect(WIRE_STORY_COUNT).toBeGreaterThanOrEqual(200);
+  });
+
+  it("places hand-filed admin stories after the curated features", () => {
+    // The curated lead must stay the front page's featured story even when
+    // editors have filed stories of their own.
+    expect(getFeatured().slug).toBe(curated[0].slug);
+    const manualSlugs = new Set(manualArticles.map((a) => a.slug));
+    const firstManualAt = articles.findIndex((a) => manualSlugs.has(a.slug));
+    if (firstManualAt >= 0) {
+      expect(firstManualAt).toBeGreaterThanOrEqual(curated.length);
+    }
   });
 
   it("has unique slugs across every story", () => {

@@ -43,6 +43,9 @@ on the client without a rebuild.
   `dynamicParams = false` turns unknown slugs away with a true 404 from the
   first byte (no soft-404).
 - **Search** — `/search` filters the whole edition in the browser.
+- **File news by hand** — the password-gated `/admin` desk lets editors enter a
+  story, preview it, confirm, and publish it into the edition (front page,
+  sections, search, feed, sitemap) without touching code.
 - **Related stories** — scored by keyword overlap, not just section.
 - **Real photos** — each card layers a seeded photo from `picsum.photos` over
   procedural SVG art, which acts as an offline fallback.
@@ -80,6 +83,34 @@ npm test         # vitest
 headlines from global RSS feeds into `lib/live-news.json`. If the network is down
 it keeps the previous snapshot and never fails the build.
 
+## Admin desk
+
+Editors can file stories by hand at **`/admin`** — no code changes required:
+
+1. Set a shared password and restart the server:
+
+   ```bash
+   ADMIN_PASSWORD=your-secret npm run dev    # or .env.local for local dev
+   ```
+
+2. Open `/admin`, sign in, and use **Write a story**. The form takes the
+   headline, dek, section, byline, date, slug (auto-derived from the headline)
+   and the body, with one paragraph per blank line.
+3. **Preview story** renders the article exactly as its page will read, using
+   the same validation rules the server enforces.
+4. **Confirm & publish** writes it to `lib/manual-news.json`; the story then
+   joins the edition everywhere — front page, section fronts, search, related
+   stories, `feed.xml` and `sitemap.xml` — and `/admin` also lists filed stories
+   for editing (re-run the preview flow) or withdrawing.
+
+Published stories are build-time data: on a deployed site, commit the updated
+`lib/manual-news.json` (or run `npm run build`) to take it live. The store is a
+plain committed JSON file, so this works on any host that can write the repo —
+serverless filesystems (Netlify functions) are read-only, so run the desk locally
+or on a Node host. The password guards both the page and the
+`/api/admin/stories` publish API; sessions are signed cookies that die when
+`ADMIN_PASSWORD` rotates.
+
 ## Routes
 
 | Route | Source | Notes |
@@ -91,7 +122,10 @@ it keeps the previous snapshot and never fails the build.
 | `/author/[slug]` | `app/author/[slug]/page.tsx` | Every story by one contributor |
 | `/news` | `app/news/page.tsx` | Live headlines by region (Nigerian / Indian / Global) |
 | `/search` | `app/search/page.tsx` | Client-side search across the edition |
+| `/admin` | `app/admin/page.tsx` | Password-gated desk for hand-filing stories |
 | `/api/live` | `app/api/live/route.ts` | On-demand headlines for client polling |
+| `/api/admin/login`, `/api/admin/logout` | `app/api/admin/*` | Shared-password sign-in and sign-out |
+| `/api/admin/stories` | `app/api/admin/stories/route.ts` | Publish, update and withdraw hand-filed stories |
 | `not-found` | `app/not-found.tsx` | Unknown slugs and unmatched URLs |
 | `/sitemap.xml`, `/robots.txt`, `/feed.xml` | `app/sitemap.ts`, `app/robots.ts`, `app/feed.xml/route.ts` | Generated from the same dataset |
 
@@ -105,11 +139,17 @@ it keeps the previous snapshot and never fails the build.
 │   ├── author/             #   Contributor archive
 │   ├── news/               #   Region browser
 │   ├── search/             #   Client-side search
+│   ├── admin/              #   Password-gated desk for hand-filing stories
 │   ├── api/live/           #   On-demand headline endpoint
-│   └── components/         #   Shared UI (cards, ticker, live wire, art)
+│   ├── api/admin/          #   Sign-in, publish, update and withdraw endpoints
+│   └── components/         #   Shared UI (cards, ticker, live wire, art, admin)
 ├── lib/                    # Typed dataset and helpers
 │   ├── articles.ts         #   Curated features + generated wire stories
 │   ├── generate.ts         #   Seeded, deterministic story generator
+│   ├── manual-news.json    #   Stories filed by hand through /admin
+│   ├── manual-news.ts      #   Validation rules shared by form and API
+│   ├── manual-store.ts     #   Filesystem persistence for hand-filed stories
+│   ├── admin-auth.ts       #   Shared-password sessions for the admin desk
 │   ├── feeds.json          #   Region + RSS feed registry (single source of truth)
 │   ├── headline-blocklist.json  #   Shared junk-headline filter
 │   ├── rss.ts              #   Dependency-free runtime RSS parser
